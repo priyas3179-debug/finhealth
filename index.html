@@ -1,0 +1,319 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>FinHealth – My Financial Tracker</title>
+  <link rel="manifest" href="manifest.json"/>
+  <meta name="theme-color" content="#3B82F6"/>
+  <meta name="description" content="Personal financial health dashboard with AI advisor"/>
+  <link rel="stylesheet" href="styles.css"/>
+</head>
+<body>
+
+<!-- ── Header ── -->
+<header class="header">
+  <div class="header-inner">
+    <div class="logo">
+      <div class="logo-icon">💹</div>
+      <div>
+        <div class="logo-name">FinHealth</div>
+        <div class="logo-sub">Priya's Financial Dashboard</div>
+      </div>
+    </div>
+    <div class="header-right">
+      <span class="last-updated" id="last-updated">Updated: Apr 2024</span>
+      <button class="btn btn-primary" id="btn-update">✏️ Update Data</button>
+    </div>
+  </div>
+</header>
+
+<!-- ── Tabs ── -->
+<nav class="tabs-bar">
+  <div class="tabs-inner">
+    <button class="tab-btn active" data-tab="overview">📊 Overview</button>
+    <button class="tab-btn" data-tab="loans">🏦 Loans & EMIs</button>
+    <button class="tab-btn" data-tab="invest">📈 Investments</button>
+    <button class="tab-btn" data-tab="advisor">🧠 AI Advisor</button>
+  </div>
+</nav>
+
+<!-- ══════════════════════════════════════════════
+     OVERVIEW TAB
+══════════════════════════════════════════════ -->
+<main class="main">
+<div class="tab-panel active" id="tab-overview">
+
+  <!-- KPI Tiles -->
+  <div class="grid-5">
+    <div class="card metric-tile" id="kpi-income">
+      <div class="metric-header"><span class="metric-label">Monthly Income</span><span class="metric-icon">💵</span></div>
+      <div class="metric-value">—</div><div class="metric-sub">—</div>
+    </div>
+    <div class="card metric-tile" id="kpi-emi">
+      <div class="metric-header"><span class="metric-label">Total EMIs</span><span class="metric-icon">🏦</span></div>
+      <div class="metric-value">—</div><div class="metric-sub">—</div>
+    </div>
+    <div class="card metric-tile" id="kpi-exp">
+      <div class="metric-header"><span class="metric-label">Expenses</span><span class="metric-icon">💸</span></div>
+      <div class="metric-value">—</div><div class="metric-sub">—</div>
+    </div>
+    <div class="card metric-tile" id="kpi-inv">
+      <div class="metric-header"><span class="metric-label">Invested</span><span class="metric-icon">📈</span></div>
+      <div class="metric-value">—</div><div class="metric-sub">—</div>
+    </div>
+    <div class="card metric-tile" id="kpi-savings">
+      <div class="metric-header"><span class="metric-label">Net Savings</span><span class="metric-icon">🏦</span></div>
+      <div class="metric-value">—</div><div class="metric-sub">—</div>
+    </div>
+  </div>
+
+  <!-- Score + Pie + Expenses -->
+  <div class="grid-score">
+    <!-- Health Score Gauge -->
+    <div class="card score-wrap">
+      <div class="card-title">Health Score</div>
+      <svg id="gauge-svg" width="140" height="100" viewBox="0 0 140 100"></svg>
+      <span class="badge" id="gauge-label" style="border-radius:20px;padding:4px 14px">—</span>
+      <div style="font-size:11px;color:var(--subtext);text-align:center" id="gauge-sub"></div>
+    </div>
+
+    <!-- Pie Chart -->
+    <div class="card">
+      <div class="card-title">Income Breakdown</div>
+      <canvas id="chart-pie" height="200"></canvas>
+    </div>
+
+    <!-- Expense List -->
+    <div class="card">
+      <div class="card-title">Expense Categories</div>
+      <div id="exp-list"></div>
+    </div>
+  </div>
+
+  <!-- 6-Month Trend -->
+  <div class="card">
+    <div class="card-title">6-Month Financial Trend</div>
+    <canvas id="chart-line" height="100"></canvas>
+  </div>
+
+  <!-- Do's & Don'ts -->
+  <div class="grid-2">
+    <div class="card">
+      <div class="section-heading-green">✅ Do's – Smart Moves for You</div>
+      <div class="dos-item"><span style="color:var(--green);font-weight:700">→</span> Start PPF for your father: ₹1.5L/yr limit, 7.1% guaranteed tax-free returns</div>
+      <div class="dos-item"><span style="color:var(--green);font-weight:700">→</span> Add Nifty 50 Index Fund SIP on Groww – more diversified than single stocks</div>
+      <div class="dos-item"><span style="color:var(--green);font-weight:700">→</span> Keep a 3-month emergency fund (~$3,800) in a high-yield savings account</div>
+      <div class="dos-item"><span style="color:var(--green);font-weight:700">→</span> Use Wise for USD→INR remittances (best exchange rates, lowest fees)</div>
+      <div class="dos-item"><span style="color:var(--green);font-weight:700">→</span> Enable AutoPay on ALL EMIs to protect your credit score</div>
+      <div class="dos-item"><span style="color:var(--green);font-weight:700">→</span> Try US ETFs via INDmoney to diversify globally and hedge INR depreciation</div>
+    </div>
+    <div class="card">
+      <div class="section-heading-red">❌ Don'ts – Avoid These Traps</div>
+      <div class="donts-item"><span style="color:var(--red);font-weight:700">×</span> Don't take any new loan before clearing your Personal Loan (12% rate is high!)</div>
+      <div class="donts-item"><span style="color:var(--red);font-weight:700">×</span> Don't let EMI ratio exceed 50% of income – you're currently in safe zone</div>
+      <div class="donts-item"><span style="color:var(--red);font-weight:700">×</span> Don't skip investing during market dips – that's actually the best time to buy</div>
+      <div class="donts-item"><span style="color:var(--red);font-weight:700">×</span> Don't let savings sit idle in a zero-interest account</div>
+      <div class="donts-item"><span style="color:var(--red);font-weight:700">×</span> Don't invest in single stocks without researching financials on Groww</div>
+      <div class="donts-item"><span style="color:var(--red);font-weight:700">×</span> Don't ignore FX risk – convert USD to INR strategically, not all at once</div>
+    </div>
+  </div>
+
+</div>
+
+<!-- ══════════════════════════════════════════════
+     LOANS TAB
+══════════════════════════════════════════════ -->
+<div class="tab-panel" id="tab-loans">
+
+  <div class="grid-3">
+    <div class="card metric-tile">
+      <div class="metric-header"><span class="metric-label">Total Monthly EMI</span><span class="metric-icon">📅</span></div>
+      <div class="metric-value" id="loan-kpi-total" style="color:var(--amber)">—</div>
+      <div class="metric-sub">Auto-deducted every month</div>
+    </div>
+    <div class="card metric-tile">
+      <div class="metric-header"><span class="metric-label">Debt-to-Income</span><span class="metric-icon">⚖️</span></div>
+      <div class="metric-value" id="loan-kpi-ratio" style="color:var(--green)">—</div>
+      <div class="metric-sub" id="loan-kpi-ratio-sub">Target: below 30%</div>
+    </div>
+    <div class="card metric-tile">
+      <div class="metric-header"><span class="metric-label">Active Loans</span><span class="metric-icon">🏦</span></div>
+      <div class="metric-value" id="loan-kpi-count" style="color:var(--purple)">—</div>
+      <div class="metric-sub">Loan accounts</div>
+    </div>
+  </div>
+
+  <div id="loans-list"></div>
+
+  <div class="card">
+    <div class="card-title">EMI Comparison</div>
+    <canvas id="chart-loanbar" height="120"></canvas>
+  </div>
+
+</div>
+
+<!-- ══════════════════════════════════════════════
+     INVESTMENTS TAB
+══════════════════════════════════════════════ -->
+<div class="tab-panel" id="tab-invest">
+
+  <div class="grid-3" style="grid-template-columns:repeat(4,1fr)">
+    <div class="card metric-tile">
+      <div class="metric-header"><span class="metric-label">Total Invested</span><span class="metric-icon">💰</span></div>
+      <div class="metric-value" id="inv-kpi-total" style="color:var(--teal)">—</div>
+      <div class="metric-sub">Across all instruments</div>
+    </div>
+    <div class="card metric-tile">
+      <div class="metric-header"><span class="metric-label">Current Value</span><span class="metric-icon">📊</span></div>
+      <div class="metric-value" id="inv-kpi-current" style="color:var(--green)">—</div>
+      <div class="metric-sub">Mark-to-market</div>
+    </div>
+    <div class="card metric-tile">
+      <div class="metric-header"><span class="metric-label">Overall P&L</span><span class="metric-icon">📉</span></div>
+      <div class="metric-value" id="inv-kpi-pl">—</div>
+      <div class="metric-sub">Unrealised gain/loss</div>
+    </div>
+    <div class="card metric-tile">
+      <div class="metric-header"><span class="metric-label">Monthly SIP</span><span class="metric-icon">🔄</span></div>
+      <div class="metric-value" id="inv-kpi-sip" style="color:var(--purple)">—</div>
+      <div class="metric-sub">Going in every month</div>
+    </div>
+  </div>
+
+  <div id="inv-list"></div>
+
+  <div class="card">
+    <div class="card-title">Savings vs Invested – 6 Months</div>
+    <canvas id="chart-savbar" height="120"></canvas>
+  </div>
+
+  <!-- Investment Ideas -->
+  <div class="card">
+    <div class="card-title">🚀 Where Else You Can Invest (Tailored for You)</div>
+    <div class="inv-idea">
+      <div class="inv-idea-icon">👴</div>
+      <div class="inv-idea-body">
+        <div class="inv-idea-name">PPF for Father</div>
+        <div class="inv-idea-desc">Up to ₹1.5L/yr. 7.1% guaranteed returns, fully tax-free at maturity. Perfect long-term gift — open at any post office or SBI.</div>
+      </div>
+      <div class="inv-idea-meta">
+        <span class="badge" style="background:#10B98122;color:#10B981;border:1px solid #10B98155">No Risk</span>
+        <div class="inv-idea-return">7.1% fixed</div>
+      </div>
+    </div>
+    <div class="inv-idea">
+      <div class="inv-idea-icon">📊</div>
+      <div class="inv-idea-body">
+        <div class="inv-idea-name">Nifty 50 Index Fund via Groww</div>
+        <div class="inv-idea-desc">More diversified than single stocks. Low expense ratio (~0.1%). Tracks India's top 50 companies. Start with ₹500/month SIP.</div>
+      </div>
+      <div class="inv-idea-meta">
+        <span class="badge" style="background:#F59E0B22;color:#F59E0B;border:1px solid #F59E0B55">Medium</span>
+        <div class="inv-idea-return">12–14% avg</div>
+      </div>
+    </div>
+    <div class="inv-idea">
+      <div class="inv-idea-icon">🇺🇸</div>
+      <div class="inv-idea-body">
+        <div class="inv-idea-name">US ETFs via INDmoney</div>
+        <div class="inv-idea-desc">Since you earn in USD, invest directly in S&P 500 ETFs. Hedges against INR depreciation. Start from just $1.</div>
+      </div>
+      <div class="inv-idea-meta">
+        <span class="badge" style="background:#F59E0B22;color:#F59E0B;border:1px solid #F59E0B55">Medium</span>
+        <div class="inv-idea-return">10–12% avg</div>
+      </div>
+    </div>
+    <div class="inv-idea">
+      <div class="inv-idea-icon">🏦</div>
+      <div class="inv-idea-body">
+        <div class="inv-idea-name">Recurring Deposit (RD)</div>
+        <div class="inv-idea-desc">Safe, guaranteed returns. Great for short-term goals (1–3 yrs). No market risk. Good for emergency fund build-up.</div>
+      </div>
+      <div class="inv-idea-meta">
+        <span class="badge" style="background:#10B98122;color:#10B981;border:1px solid #10B98155">Low Risk</span>
+        <div class="inv-idea-return">6.5–7%</div>
+      </div>
+    </div>
+    <div class="inv-idea">
+      <div class="inv-idea-icon">🥇</div>
+      <div class="inv-idea-body">
+        <div class="inv-idea-name">Digital Gold via Groww</div>
+        <div class="inv-idea-desc">Start with as little as ₹1. Great hedge during market crashes or festivals. Easy to sell anytime. No storage hassle.</div>
+      </div>
+      <div class="inv-idea-meta">
+        <span class="badge" style="background:#10B98122;color:#10B981;border:1px solid #10B98155">Low Risk</span>
+        <div class="inv-idea-return">Varies</div>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<!-- ══════════════════════════════════════════════
+     AI ADVISOR TAB
+══════════════════════════════════════════════ -->
+<div class="tab-panel" id="tab-advisor">
+
+  <div class="card">
+    <div class="advisor-header">
+      <div>
+        <div style="font-size:11px;color:var(--subtext);font-weight:700;letter-spacing:1px;text-transform:uppercase;margin-bottom:4px">🧠 Monthly Financial Advisor</div>
+        <div style="font-size:20px;font-weight:800">AI-Powered Analysis & Predictions</div>
+      </div>
+      <button class="btn btn-primary" id="advisor-btn">✨ Get This Month's Advice</button>
+    </div>
+    <div id="advisor-output">
+      <div class="advisor-placeholder">Click the button above to get personalized financial advice powered by AI 🤖<br><br>Updates your analysis based on your latest data every time you click.</div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-title">📈 Savings & Investments – 6 Month History</div>
+    <canvas id="chart-savbar2" height="120"></canvas>
+  </div>
+
+  <div class="card" style="border-color:rgba(59,130,246,.4)">
+    <div style="font-size:13px;font-weight:800;color:var(--accent);margin-bottom:12px">💡 How to Use AI Advisor Without Paying for Claude Pro</div>
+    <div class="tip-item">✅ Click "Get Advice" only <strong>once per month</strong> — on the 1st, after you update your numbers</div>
+    <div class="tip-item">✅ Click <strong>✏️ Update Data</strong> first with fresh numbers, THEN click Advice (1 smart call = full analysis)</div>
+    <div class="tip-item">✅ <strong>Copy and save</strong> the advice text each month — don't regenerate it unnecessarily</div>
+    <div class="tip-item">✅ Use free Claude.ai chat for any follow-up questions about specific topics</div>
+    <div class="tip-item">✅ Your data is saved locally in your browser — no server, no cost, fully private</div>
+  </div>
+
+</div>
+</main>
+
+<!-- ══════════════════════════════════════════════
+     DATA ENTRY MODAL
+══════════════════════════════════════════════ -->
+<div class="modal-overlay" id="modal-overlay">
+  <div class="modal">
+    <div class="modal-header">
+      <div class="modal-title">✏️ Update My Financial Data</div>
+      <button class="modal-close" id="modal-close">✕</button>
+    </div>
+    <div id="modal-body"></div>
+    <div class="modal-actions">
+      <button class="btn btn-primary" id="modal-save" style="flex:1">💾 Save & Refresh Dashboard</button>
+      <button class="btn btn-ghost" id="modal-cancel">Cancel</button>
+    </div>
+  </div>
+</div>
+
+<!-- ── Scripts ── -->
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+<script src="app.js"></script>
+<script>
+  // Cancel button
+  document.getElementById("modal-cancel")?.addEventListener("click", closeModal);
+  // PWA install
+  if("serviceWorker" in navigator) {
+    window.addEventListener("load", () => {
+      navigator.serviceWorker.register("sw.js").catch(()=>{});
+    });
+  }
+</script>
+</body>
+</html>
