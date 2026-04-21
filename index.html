@@ -6,172 +6,386 @@
 <meta name="apple-mobile-web-app-capable" content="yes"/>
 <title>FinHealth – Priya</title>
 <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Roboto+Slab:wght@400;500;700;800&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
 <style>
-@import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;600;700;800&family=JetBrains+Mono:wght@500;700&display=swap');
-:root{--bg:#0D1117;--surface:#161B22;--card:#1C2230;--border:#2D3748;--accent:#3B82F6;--green:#10B981;--red:#EF4444;--amber:#F59E0B;--purple:#8B5CF6;--teal:#14B8A6;--text:#F0F6FC;--sub:#8B949E;--mono:'JetBrains Mono',monospace;--sans:'IBM Plex Sans',sans-serif;--nav:62px}
+:root{
+  --bg:#080C14;
+  --surface:#0E1420;
+  --card:#121928;
+  --card2:#161E2E;
+  --border:#1E2D45;
+  --border2:#253248;
+  --accent:#4F8EF7;
+  --accent2:#3B6FD4;
+  --green:#0FD47B;
+  --green2:#0AAF65;
+  --red:#FF4B6E;
+  --amber:#FFBD3C;
+  --purple:#9F7AEA;
+  --teal:#38E2C8;
+  --pink:#F06292;
+  --text:#EFF6FF;
+  --sub:#667A99;
+  --sub2:#8A9EBB;
+  --mono:'JetBrains Mono',monospace;
+  --sans:'Roboto Slab',serif;
+  --display:'Roboto Slab',serif;
+  --nav:64px;
+  --radius:14px;
+  --radius-sm:8px;
+}
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
-body{font-family:var(--sans);background:var(--bg);color:var(--text);min-height:100vh;-webkit-font-smoothing:antialiased;padding-bottom:var(--nav)}
-::-webkit-scrollbar{width:4px}::-webkit-scrollbar-thumb{background:var(--border);border-radius:2px}
-/* HEADER */
-.hdr{background:var(--surface);border-bottom:1px solid var(--border);padding:0 16px;position:sticky;top:0;z-index:100;height:52px;display:flex;align-items:center;justify-content:space-between}
+body{font-family:var(--sans);background:var(--bg);color:var(--text);min-height:100vh;-webkit-font-smoothing:antialiased;padding-bottom:calc(var(--nav)+8px);background-image:radial-gradient(ellipse at 20% 0%,rgba(79,142,247,.06) 0%,transparent 60%),radial-gradient(ellipse at 80% 100%,rgba(159,122,234,.05) 0%,transparent 60%)}
+::-webkit-scrollbar{width:3px}::-webkit-scrollbar-thumb{background:var(--border2);border-radius:2px}
+
+/* ── HEADER ── */
+.hdr{background:rgba(8,12,20,.85);backdrop-filter:blur(20px);border-bottom:1px solid var(--border);padding:0 16px;position:sticky;top:0;z-index:200;height:54px;display:flex;align-items:center;justify-content:space-between}
 .logo{display:flex;align-items:center;gap:10px}
-.logo-ic{width:30px;height:30px;background:linear-gradient(135deg,var(--accent),var(--purple));border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:14px;flex-shrink:0}
-.logo-nm{font-weight:800;font-size:15px}.logo-sb{font-size:10px;color:var(--sub)}
-.hdr-r{display:flex;align-items:center;gap:6px}
-.badge{border-radius:20px;padding:3px 9px;font-size:10px;font-weight:700;white-space:nowrap}
-.btn-sm{background:var(--border);color:var(--text);border:none;border-radius:8px;padding:5px 10px;font-size:12px;font-weight:700;cursor:pointer;font-family:var(--sans)}
-/* BOTTOM NAV */
-.bnav{position:fixed;bottom:0;left:0;right:0;height:var(--nav);background:var(--surface);border-top:1px solid var(--border);display:flex;z-index:100}
-.nitem{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;cursor:pointer;border:none;background:transparent;color:var(--sub);font-family:var(--sans);padding:4px 2px;transition:color .2s;-webkit-tap-highlight-color:transparent}
-.nitem.active{color:var(--accent)}.nic{font-size:19px;line-height:1}.nlb{font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:.3px}
-/* MAIN */
-.main{padding:12px 13px 8px}
+.logo-ic{width:32px;height:32px;background:linear-gradient(135deg,var(--accent),var(--purple));border-radius:9px;display:flex;align-items:center;justify-content:center;font-size:15px;box-shadow:0 0 16px rgba(79,142,247,.35)}
+.logo-nm{font-family:var(--display);font-weight:800;font-size:15px;letter-spacing:-.3px}
+.logo-sb{font-size:9px;color:var(--sub);font-weight:500;letter-spacing:.3px}
+.hdr-r{display:flex;align-items:center;gap:8px}
+.bdg{border-radius:20px;padding:3px 10px;font-size:10px;font-weight:700;white-space:nowrap;letter-spacing:.3px}
+.bsm{background:var(--border);color:var(--text);border:1px solid var(--border2);border-radius:8px;padding:5px 10px;font-size:11px;font-weight:700;cursor:pointer;font-family:var(--sans);transition:all .15s;letter-spacing:.2px}
+.bsm:hover{background:var(--border2);border-color:var(--accent)}
+
+/* ── BOTTOM NAV ── */
+.bnav{position:fixed;bottom:0;left:0;right:0;height:var(--nav);background:rgba(8,12,20,.9);backdrop-filter:blur(20px);border-top:1px solid var(--border);display:flex;z-index:200;padding:4px 0}
+.ni{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;cursor:pointer;border:none;background:transparent;color:var(--sub);font-family:var(--sans);-webkit-tap-highlight-color:transparent;transition:all .2s;position:relative;border-radius:10px;margin:2px;padding:4px 0}
+.ni.active{color:var(--accent)}
+.ni.active::before{content:'';position:absolute;top:0;left:50%;transform:translateX(-50%);width:24px;height:2px;background:var(--accent);border-radius:0 0 3px 3px;box-shadow:0 0 8px var(--accent)}
+.nic{font-size:18px;line-height:1}
+.nlb{font-size:9px;font-weight:600;text-transform:uppercase;letter-spacing:.5px}
+
+/* ── LAYOUT ── */
+.main{padding:12px 13px 6px}
 .tp{display:none;flex-direction:column;gap:11px}.tp.active{display:flex}
-/* CARDS */
-.card{background:var(--card);border:1px solid var(--border);border-radius:13px;padding:13px 15px}
-.ct{font-size:10px;color:var(--sub);font-weight:700;letter-spacing:1px;text-transform:uppercase;margin-bottom:10px}
-/* GRIDS */
+
+/* ── CARDS ── */
+.card{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);padding:14px 16px;transition:border-color .2s}
+.card:hover{border-color:var(--border2)}
+.card-glow-blue{border-color:rgba(79,142,247,.25);background:linear-gradient(135deg,rgba(79,142,247,.04),var(--card))}
+.card-glow-green{border-color:rgba(15,212,123,.25);background:linear-gradient(135deg,rgba(15,212,123,.04),var(--card))}
+.card-glow-purple{border-color:rgba(159,122,234,.25);background:linear-gradient(135deg,rgba(159,122,234,.04),var(--card))}
+.card-glow-amber{border-color:rgba(255,189,60,.25);background:linear-gradient(135deg,rgba(255,189,60,.04),var(--card))}
+
+/* ── SECTION TITLE ── */
+.ct{font-size:9px;color:var(--sub2);font-weight:700;letter-spacing:1.2px;text-transform:uppercase;margin-bottom:10px;display:flex;align-items:center;gap:5px}
+.ct::before{content:'';width:2px;height:10px;background:var(--accent);border-radius:1px;display:inline-block}
+
+/* ── GRID ── */
 .g2{display:grid;grid-template-columns:1fr 1fr;gap:10px}
-.g3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:9px}
-/* METRIC TILE */
-.mt{display:flex;flex-direction:column;gap:3px}
-.mh{display:flex;justify-content:space-between;align-items:center}
+.g3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px}
+
+/* ── METRIC TILE ── */
+.mt{display:flex;flex-direction:column;gap:4px}
+.mh{display:flex;justify-content:space-between;align-items:center;margin-bottom:2px}
 .ml{font-size:9px;color:var(--sub);font-weight:700;letter-spacing:.8px;text-transform:uppercase}
-.mi{font-size:14px}.mv{font-size:19px;font-weight:800;font-family:var(--mono);line-height:1.15}
-.ms{font-size:10px;color:var(--sub)}
-/* ROW */
+.mi{font-size:14px;width:26px;height:26px;display:flex;align-items:center;justify-content:center;background:var(--surface);border-radius:7px}
+.mv{font-size:19px;font-weight:700;font-family:var(--mono);line-height:1.2;letter-spacing:-.5px}
+.ms{font-size:10px;color:var(--sub);font-weight:500}
+
+/* ── ROWS ── */
 .row{display:flex;justify-content:space-between;align-items:center;padding:8px 0;border-bottom:1px solid var(--border)}
 .row:last-child{border-bottom:none}
-.rl{font-size:12px;color:var(--sub)}.rv{font-size:13px;font-weight:700;font-family:var(--mono)}
-/* GCROW */
-.gcr{display:flex;justify-content:space-between;align-items:center;padding:9px 11px;background:var(--surface);border-radius:8px;margin-bottom:6px}
-/* LOAN CARD */
-.lnm{font-size:14px;font-weight:800;margin-bottom:5px}
-.lamt{font-size:19px;font-weight:800;font-family:var(--mono);color:var(--amber)}
+.rl{font-size:12px;color:var(--sub2)}.rv{font-size:12px;font-weight:700;font-family:var(--mono)}
+.gcr{display:flex;justify-content:space-between;align-items:center;padding:9px 12px;background:var(--surface);border-radius:9px;margin-bottom:5px;border:1px solid var(--border);transition:border-color .2s}
+.gcr:hover{border-color:var(--border2)}
+
+/* ── TAGS ── */
 .tags{display:flex;flex-wrap:wrap;gap:4px;margin-top:5px}
-.tag{border-radius:5px;padding:2px 7px;font-size:10px;font-weight:700}
-.ptrk{background:var(--border);border-radius:3px;height:5px;overflow:hidden;margin:8px 0 3px}
-.pfil{height:100%;border-radius:3px}
-.apw{margin-top:7px;background:rgba(239,68,68,.1);border:1px solid rgba(239,68,68,.3);border-radius:7px;padding:6px 10px;font-size:11px;color:var(--red)}
-/* INVESTMENT ROWS */
-.irow{display:flex;justify-content:space-between;align-items:center;padding:9px 11px;border-radius:8px;margin-bottom:4px}
+.tag{border-radius:6px;padding:2px 8px;font-size:10px;font-weight:700;letter-spacing:.2px}
+
+/* ── PROGRESS BAR ── */
+.ptrk{background:var(--border);border-radius:3px;height:4px;overflow:hidden;margin:8px 0 4px}
+.pfil{height:100%;border-radius:3px;transition:width .6s ease}
+
+/* ── ALERT ── */
+.apw{margin-top:8px;background:rgba(255,75,110,.08);border:1px solid rgba(255,75,110,.25);border-radius:8px;padding:7px 11px;font-size:11px;color:var(--red);font-weight:500}
+
+/* ── INVESTMENT ROWS ── */
+.irow{display:flex;justify-content:space-between;align-items:center;padding:9px 11px;border-radius:9px;margin-bottom:4px;transition:background .2s}
+.irow:hover{background:var(--card2)!important}
 .inm{font-size:12px;font-weight:700;margin-bottom:2px}
 .ival{font-size:12px;font-weight:800;font-family:var(--mono);color:var(--accent);text-align:right}
-.isip{font-size:10px;text-align:right}
-/* DOS/DONTS */
-.di{display:flex;gap:7px;font-size:11px;color:var(--sub);line-height:1.6;margin-bottom:7px}
-/* ADVISOR */
-.aout-box{background:var(--surface);border-left:4px solid var(--accent);border-radius:8px;padding:13px 15px;font-size:13px;line-height:1.9;white-space:pre-wrap}
-.lbar{background:var(--border);border-radius:3px;height:3px;overflow:hidden;margin-top:7px}
+.isip{font-size:10px;text-align:right;font-weight:500}
+
+/* ── DO/DON'T LIST ── */
+.di{display:flex;gap:8px;font-size:11px;color:var(--sub2);line-height:1.7;margin-bottom:7px;padding:8px 10px;background:var(--surface);border-radius:8px;border:1px solid var(--border)}
+
+/* ── AI OUTPUT ── */
+.aout-box{background:var(--surface);border-left:3px solid var(--accent);border-radius:10px;padding:14px 16px;font-size:12px;line-height:2;white-space:pre-wrap;border:1px solid var(--border);border-left:3px solid var(--accent)}
+
+/* ── LOADING ── */
+.lbar{background:var(--border);border-radius:3px;height:3px;overflow:hidden;margin-top:6px}
 .lfil{background:linear-gradient(90deg,var(--accent),var(--purple));height:100%;width:60%;animation:lp 1.5s ease-in-out infinite}
-@keyframes lp{0%,100%{opacity:1}50%{opacity:.4}}
-/* SPIN */
-.spin{display:inline-block;width:15px;height:15px;border:2px solid var(--border);border-top-color:var(--accent);border-radius:50%;animation:sp .8s linear infinite}
+@keyframes lp{0%,100%{opacity:1}50%{opacity:.35}}
+.spin{display:inline-block;width:14px;height:14px;border:2px solid var(--border2);border-top-color:var(--accent);border-radius:50%;animation:sp .8s linear infinite}
 @keyframes sp{to{transform:rotate(360deg)}}
 .loader{display:flex;align-items:center;gap:8px;color:var(--sub);font-size:12px;padding:20px 0;justify-content:center}
-/* BUTTONS */
-.btn-full{background:var(--accent);color:#fff;border:none;border-radius:10px;padding:12px;font-weight:700;font-size:14px;cursor:pointer;font-family:var(--sans);width:100%;-webkit-tap-highlight-color:transparent}
-.btn-full:disabled{background:var(--border);cursor:not-allowed}
-/* EXP TABLE */
+
+/* ── BUTTONS ── */
+.btnf{background:linear-gradient(135deg,var(--accent),var(--accent2));color:#fff;border:none;border-radius:10px;padding:12px;font-weight:700;font-size:13px;cursor:pointer;font-family:var(--sans);width:100%;-webkit-tap-highlight-color:transparent;transition:all .2s;letter-spacing:.2px;box-shadow:0 4px 16px rgba(79,142,247,.3)}
+.btnf:hover{transform:translateY(-1px);box-shadow:0 6px 20px rgba(79,142,247,.4)}
+.btnf:active{transform:translateY(0)}
+.btnf:disabled{background:var(--border);cursor:not-allowed;box-shadow:none;transform:none}
+
+/* ── EXPENSE TABLE ── */
 .etbl{width:100%;border-collapse:collapse;font-size:11px}
-.etbl th{padding:6px 8px;background:var(--surface);color:var(--sub);font-weight:700;font-size:9px;text-transform:uppercase;text-align:left;border-bottom:1px solid var(--border)}
+.etbl th{padding:6px 8px;background:var(--surface);color:var(--sub);font-weight:700;font-size:9px;text-transform:uppercase;text-align:left;border-bottom:1px solid var(--border);letter-spacing:.5px}
 .etbl td{padding:8px 8px;border-bottom:1px solid var(--border)}
 .etbl tr:last-child td{border-bottom:none}
-/* INSIGHT CARDS */
-.ins-card{background:var(--surface);border-radius:10px;padding:13px 15px;margin-bottom:10px;border-left:3px solid}
-.ins-title{font-size:13px;font-weight:800;margin-bottom:6px}
-.ins-body{font-size:12px;color:var(--sub);line-height:1.7}
-.verdict{display:inline-block;border-radius:6px;padding:2px 9px;font-size:10px;font-weight:800;margin-bottom:8px}
-/* NET WORTH */
-.nw-row{display:flex;justify-content:space-between;align-items:center;padding:8px 11px;border-radius:8px;margin-bottom:5px}
-/* TIP BOX */
-.tipbox{background:var(--surface);border-radius:9px;padding:11px 13px;font-size:12px;color:var(--sub);line-height:2.1}
-.inv-idea{display:flex;gap:11px;padding:10px 0;border-bottom:1px solid var(--border)}.inv-idea:last-child{border-bottom:none}
+.etbl tr:hover td{background:var(--surface)}
+
+/* ── STOCK TICKER ── */
+.stk-ticker{display:flex;align-items:center;gap:8px;padding:10px 12px;background:var(--surface);border-radius:10px;margin-bottom:5px;border:1px solid var(--border);transition:all .2s;position:relative;overflow:hidden}
+.stk-ticker::before{content:'';position:absolute;left:0;top:0;bottom:0;width:3px;border-radius:3px}
+.stk-ticker.up::before{background:var(--green)}
+.stk-ticker.down::before{background:var(--red)}
+.stk-ticker.flat::before{background:var(--sub)}
+.stk-ticker:hover{border-color:var(--border2);background:var(--card2)}
+.stk-nm{font-size:12px;font-weight:700;flex:1}
+.stk-pr{font-size:13px;font-weight:800;font-family:var(--mono)}
+.stk-ch{font-size:10px;font-weight:700;padding:2px 6px;border-radius:5px}
+.stk-avg{font-size:10px;color:var(--sub)}
+.live-dot{width:6px;height:6px;background:var(--green);border-radius:50%;animation:pulse 2s infinite;flex-shrink:0}
+@keyframes pulse{0%,100%{opacity:1;transform:scale(1)}50%{opacity:.5;transform:scale(.8)}}
+
+/* ── AFFORDABILITY ── */
+.afford-box{border-radius:11px;padding:13px 15px;margin-bottom:8px;border:1px solid}
+
+/* ── NET WORTH CARD ── */
+.nw-big{font-family:var(--display);font-size:28px;font-weight:800;letter-spacing:-1px;line-height:1}
+.nw-label{font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:1px;color:var(--sub);margin-bottom:4px}
+.nwrow{display:flex;justify-content:space-between;align-items:center;padding:9px 12px;border-radius:9px;margin-bottom:4px;border:1px solid var(--border)}
+
+/* ── SECTION HEADINGS ── */
+.sh-green{font-size:12px;font-weight:800;color:var(--green);margin-bottom:8px;display:flex;align-items:center;gap:5px}
+.sh-red{font-size:12px;font-weight:800;color:var(--red);margin-bottom:8px;display:flex;align-items:center;gap:5px}
+.tipbox{background:var(--surface);border-radius:9px;padding:11px 14px;font-size:11px;color:var(--sub2);line-height:2.1;border:1px solid var(--border)}
+
+/* ── STOCK REFRESH STATUS ── */
+.stk-refresh-bar{display:flex;align-items:center;justify-content:space-between;margin-bottom:8px}
+.stk-status{font-size:9px;color:var(--sub);font-weight:600;display:flex;align-items:center;gap:4px}
+.stk-refresh-btn{background:var(--surface);border:1px solid var(--border);border-radius:7px;color:var(--sub2);font-size:10px;font-weight:700;padding:3px 9px;cursor:pointer;font-family:var(--sans);transition:all .15s}
+.stk-refresh-btn:hover{border-color:var(--accent);color:var(--accent)}
+
+/* ── DUAL CURRENCY BADGE ── */
+.dual-ccy{display:flex;gap:8px;margin-top:8px}
+.ccy-pill{flex:1;background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:10px 12px;text-align:center}
+.ccy-pill-v{font-family:var(--mono);font-weight:800;font-size:15px;letter-spacing:-.3px}
+.ccy-pill-l{font-size:9px;color:var(--sub);font-weight:600;text-transform:uppercase;letter-spacing:.5px;margin-top:2px}
+
+/* ── LOAN CARD ── */
+.loan-card{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);padding:14px 16px;margin-bottom:9px;transition:border-color .2s}
+.loan-card:hover{border-color:var(--border2)}
+.loan-name{font-family:var(--display);font-size:14px;font-weight:800;letter-spacing:-.2px}
+.loan-emi{font-size:20px;font-weight:800;font-family:var(--mono);color:var(--amber);letter-spacing:-.5px}
+
+/* ── HIGHLIGHT BOX ── */
+.hl-box{background:linear-gradient(135deg,rgba(79,142,247,.08),rgba(159,122,234,.05));border:1px solid rgba(79,142,247,.2);border-radius:11px;padding:12px 14px}
+
+/* ── ANIMATIONS ── */
+@keyframes fadeSlideUp{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
+.tp.active>*{animation:fadeSlideUp .25s ease both}
+.tp.active>*:nth-child(2){animation-delay:.04s}
+.tp.active>*:nth-child(3){animation-delay:.08s}
+.tp.active>*:nth-child(4){animation-delay:.12s}
+.tp.active>*:nth-child(5){animation-delay:.16s}
+
+/* ── SECTION DIVIDER ── */
+.sdiv{height:1px;background:linear-gradient(90deg,transparent,var(--border),transparent);margin:4px 0}
+
+/* ── TIMELINE DOT ── */
+.tl-item{display:flex;gap:10px;padding:8px 0;border-bottom:1px solid var(--border)}
+.tl-item:last-child{border-bottom:none}
+.tl-dot{width:8px;height:8px;border-radius:50%;flex-shrink:0;margin-top:4px}
+.tl-date{font-size:10px;color:var(--sub);font-weight:600;min-width:60px}
+.tl-text{font-size:11px;font-weight:700;color:var(--text)}
 </style>
 </head>
 <body>
+
 <script>
 const API="https://script.google.com/macros/s/AKfycbyZKxocNGeFmhxe4RxikdwkzPtT-k7reQtBntBmFjPvdoD5WlpudHktYUgibhhIn3ss/exec";
+const INR=83.5;
 
-// ── FIXES: AutoPay corrected, bank=$6000 ──
+// ── LIVE STOCK STATE ──
+let LIVE_STOCKS={
+  "Force Motors":    {price:24927,  sym:"FORCEMOT.NS",  ch:+5.52, fetched:false},
+  "BSE Ltd":         {price:5280,   sym:"BSE.NS",        ch:+1.2,  fetched:false},
+  "Bajaj Housing":   {price:91.06,  sym:"BAJAJHFL.NS",  ch:+1.70, fetched:false},
+  "TATSILV":         {price:31.5,   sym:"TATSILV.NS",    ch:+0.8,  fetched:false},
+  "Reliance Comms":  {price:1.09,   sym:"RCOM.NS",       ch:0,     fetched:false},
+  "NIFTYBEES":       {price:275.21, sym:"NIFTYBEES.NS",  ch:-0.25, fetched:false},
+};
+let stocksLastFetch=null;
+let stocksFetching=false;
+
+// ── FETCH LIVE STOCK PRICES via Yahoo Finance proxy ──
+async function fetchLiveStocks(){
+  if(stocksFetching) return;
+  stocksFetching=true;
+  document.getElementById("stk-status-txt").textContent="Fetching live prices...";
+  const symbols=Object.values(LIVE_STOCKS).map(s=>s.sym).join(",");
+  const url=`https://query1.finance.yahoo.com/v8/finance/chart/${symbols}?interval=1d&range=1d`;
+  // Fetch each symbol individually (Yahoo doesn't batch well for NSE in CORS context)
+  const names=Object.keys(LIVE_STOCKS);
+  let fetched=0;
+  for(const name of names){
+    const s=LIVE_STOCKS[name];
+    try{
+      const r=await fetch(`https://query1.finance.yahoo.com/v8/finance/chart/${s.sym}?interval=1d&range=2d`,{mode:"cors"});
+      if(!r.ok) throw new Error("HTTP "+r.status);
+      const d=await r.json();
+      const meta=d?.chart?.result?.[0]?.meta;
+      if(meta){
+        const cur=meta.regularMarketPrice||meta.previousClose||s.price;
+        const prev=meta.chartPreviousClose||meta.previousClose||cur;
+        const ch=prev>0?+((cur-prev)/prev*100).toFixed(2):s.ch;
+        LIVE_STOCKS[name]={...s,price:cur,ch,fetched:true};
+        fetched++;
+      }
+    }catch(e){
+      // Use cached/fallback price
+      LIVE_STOCKS[name]={...s,fetched:false};
+    }
+  }
+  stocksLastFetch=new Date();
+  stocksFetching=false;
+  const t=stocksLastFetch.toLocaleTimeString("en-US",{hour:"2-digit",minute:"2-digit"});
+  const el=document.getElementById("stk-status-txt");
+  if(el) el.textContent=fetched>0?`Live · ${t}`:`Cached · ${t}`;
+  // Re-render investments if that tab is active
+  const F=calcF();
+  renderInvest(F);
+}
+
 const FL={
   loans:[
-    {name:"Sofi",        emi:1600,   due:"5th",  autopay:true, ends:"Aug 2027",monthsLeft:16},
-    {name:"Discover",    emi:982,    due:"28th", autopay:true, ends:"Dec 2026",monthsLeft:8},
-    {name:"Apple",       emi:267.68, due:"1st",  autopay:true, ends:"May 2027",monthsLeft:13},
-    {name:"Citi",        emi:360,    due:"26th", autopay:true, ends:"May 2027",monthsLeft:13},
-    {name:"Wells Fargo", emi:280,    due:"23rd", autopay:true, ends:"May 2027",monthsLeft:13},
-    {name:"Phone Bill",  emi:117.03, due:"6th",  autopay:true, ends:"Ongoing", monthsLeft:0},
-    {name:"Car Insurance",emi:160,   due:"24th", autopay:true, ends:"Ongoing", monthsLeft:0},
-    {name:"Rent",        emi:900,    due:"1st",  autopay:true, ends:"Ongoing", monthsLeft:0},
+    {name:"Sofi",         emi:1600,   due:"5th",  autopay:true,  ends:"Aug 2027",  monthsLeft:16},
+    {name:"Discover",     emi:982,    due:"28th", autopay:true,  ends:"Dec 2026",  monthsLeft:8},
+    {name:"Apple",        emi:267.68, due:"1st",  autopay:true,  ends:"May 2027",  monthsLeft:13},
+    {name:"Citi",         emi:360,    due:"26th", autopay:true,  ends:"May 2027",  monthsLeft:13},
+    {name:"Wells Fargo",  emi:280,    due:"23rd", autopay:true,  ends:"May 2027",  monthsLeft:13},
+    {name:"Phone Bill",   emi:117.03, due:"6th",  autopay:true,  ends:"Ongoing",   monthsLeft:0},
+    {name:"Car Insurance",emi:160,    due:"24th", autopay:true,  ends:"Ongoing",   monthsLeft:0},
+    {name:"Rent",         emi:900,    due:"1st",  autopay:true,  ends:"Ongoing",   monthsLeft:0},
   ],
   investments:[
-    {name:"Force Motors",           type:"Stock",invested:224951,currentValue:224951,sip:0},
-    {name:"BSE Ltd",                type:"Stock",invested:85844, currentValue:85844, sip:0},
-    {name:"Bajaj Housing Finance",  type:"Stock",invested:137256,currentValue:137256,sip:0},
-    {name:"TATSILV",                type:"Stock",invested:82,    currentValue:82,    sip:0},
-    {name:"Reliance Comms",         type:"Stock",invested:9,     currentValue:9,     sip:0},
-    {name:"Nippon Silver ETF FOF",  type:"MF",   invested:36998, currentValue:36998, sip:4000},
-    {name:"Bandhan Small Cap",      type:"MF",   invested:45998, currentValue:45998, sip:5000},
-    {name:"LIC Gold ETF FOF",       type:"MF",   invested:19999, currentValue:19999, sip:2000},
-    {name:"ICICI BSE Sensex Index", type:"MF",   invested:24999, currentValue:24999, sip:5000},
-    {name:"Quant Small Cap",        type:"MF",   invested:19999, currentValue:19999, sip:2000},
-    {name:"Motilal Oswal Midcap",   type:"MF",   invested:18999, currentValue:18999, sip:2000},
-    {name:"ICICI Nifty 50 Index",   type:"MF",   invested:5000,  currentValue:5000,  sip:0},
-    {name:"Parag Parikh Flexi Cap", type:"MF",   invested:2000,  currentValue:2000,  sip:0},
+    {name:"Force Motors",          type:"Stock",invested:224951,units:11,  avgPrice:20450.12},
+    {name:"BSE Ltd",               type:"Stock",invested:85844, units:32,  avgPrice:2682.64},
+    {name:"Bajaj Housing Finance", type:"Stock",invested:137256,units:1200,avgPrice:114.38},
+    {name:"TATSILV",               type:"Stock",invested:82,    units:3,   avgPrice:27.21},
+    {name:"Reliance Comms",        type:"Stock",invested:9,     units:8,   avgPrice:1.09},
+    {name:"Nippon Silver ETF",     type:"MF",   invested:36998, sip:4000},
+    {name:"Bandhan Small Cap",     type:"MF",   invested:45998, sip:5000},
+    {name:"LIC Gold ETF",          type:"MF",   invested:19999, sip:2000},
+    {name:"ICICI BSE Sensex Index",type:"MF",   invested:24999, sip:5000},
+    {name:"Quant Small Cap",       type:"MF",   invested:19999, sip:2000},
+    {name:"Motilal Midcap",        type:"MF",   invested:18999, sip:2000},
+    {name:"ICICI Nifty 50 Index",  type:"MF",   invested:5000,  sip:0},
+    {name:"Parag Parikh Flexi Cap",type:"MF",   invested:2000,  sip:0},
+    {name:"PPF (Father's name – Priya's savings)",type:"PPF",invested:0,sip:0,note:"₹1.5L/yr via annual bonus. 7.1% guaranteed, tax-free."},
   ],
   expenses:[],
-  history:[{month:"Apr 2026",income:5626,emi:3489.68,bills:1177.03,invested:500,variable:100,savings:359.29}],
+  history:[
+    {month:"Apr 2026",income:5626,emi:3489.68,bills:1177.03,invested:500,variable:100,savings:359.29}
+  ],
   summary:[["Field","Value"],["Monthly Income",5626],["Bank Savings",6000],["INR Rate",83.5]]
 };
 
 let S=JSON.parse(JSON.stringify(FL)),charts={};
 const fmt  = n=>"$"+Math.abs(+n||0).toLocaleString("en-US",{maximumFractionDigits:0});
 const fmtI = n=>"₹"+Math.abs(+n||0).toLocaleString("en-IN",{maximumFractionDigits:0});
-const fmtD = d=>{ if(!d) return "—"; try{return new Date(d).toLocaleDateString("en-IN",{day:"numeric",month:"short",year:"numeric"});}catch{return d;}};
-const dc   = id=>{if(charts[id]){charts[id].destroy();delete charts[id];}};
+const fmtDate = d=>{
+  if(!d||d==="—") return "—";
+  try{
+    const dt=new Date(d);
+    if(isNaN(dt.getTime())) return String(d);
+    return dt.toLocaleDateString("en-IN",{day:"numeric",month:"short",year:"numeric"});
+  }catch{return String(d);}
+};
+// Strip ISO timestamp from "ends" field — show only human-readable part
+const cleanEnds = e=>{
+  if(!e||e==="Ongoing") return e;
+  // If it looks like an ISO date string, format it nicely
+  if(/\d{4}-\d{2}-\d{2}T/.test(String(e))){
+    try{
+      const dt=new Date(e);
+      if(!isNaN(dt.getTime())) return dt.toLocaleDateString("en-US",{month:"short",year:"numeric"});
+    }catch{}
+  }
+  return String(e);
+};
+const dc=id=>{if(charts[id]){charts[id].destroy();delete charts[id];}};
 
 function calcF(){
   const get=k=>{const r=(S.summary||[]).find(r=>r[0]===k);return r?+r[1]:null;};
-  const income  = get("Monthly Income")||5626;
-  const bank    = get("Bank Savings")||6000;
-  const loans   = S.loans||FL.loans;
-  const loanEMI = loans.reduce((s,l)=>s+(+l.emi||0),0);          // all payments
-  const termLoans=loans.filter(l=>+l.monthsLeft>0);               // has end date
-  const recurr   =loans.filter(l=>!(+l.monthsLeft>0));            // rent/phone/insurance
-  const termEMI  =termLoans.reduce((s,l)=>s+(+l.emi||0),0);
-  const recurrEMI=recurr.reduce((s,l)=>s+(+l.emi||0),0);
-  const invested=500;
-  // FIX #1: Net savings = cash left after everything paid, NOT counting investments
-  // Wealth building = investments + leftover cash
-  const varExp=100; // placeholder until user updates
-  const cashLeft = income - loanEMI - invested - varExp;  // truly free cash
-  const wealthBuilding = invested + Math.max(cashLeft,0); // investments + savings
+  const income=get("Monthly Income")||5626;
+  const bank=get("Bank Savings")||6000;
+  const loans=S.loans||FL.loans;
+  const loanEMI=loans.reduce((s,l)=>s+(+l.emi||0),0);
+  const termL=loans.filter(l=>+l.monthsLeft>0);
+  const recL=loans.filter(l=>!(+l.monthsLeft>0));
+  const termEMI=termL.reduce((s,l)=>s+(+l.emi||0),0);
+  const recEMI=recL.reduce((s,l)=>s+(+l.emi||0),0);
+  const invested=500,varExp=100;
+  const cashLeft=income-loanEMI-invested-varExp;
+  const wealthMo=invested+Math.max(cashLeft,0);
   const debtR=loanEMI/income;
   let score=100;
-  if(debtR>.6)score-=35;else if(debtR>.4)score-=20;else if(debtR>.3)score-=10;
-  if(cashLeft/income<.05)score-=25;else if(cashLeft/income<.2)score-=10;
+  if(debtR>.6)score-=30;else if(debtR>.4)score-=18;else if(debtR>.3)score-=8;
+  if(cashLeft/income<.05)score-=22;else if(cashLeft/income<.2)score-=9;
+  // Net worth factor: negative net worth penalises, positive rewards
+  const stocksCurrentINR2=((S.investments||FL.investments).filter(i=>i.type==="Stock")).reduce((s,st)=>{
+    const lk=Object.keys(LIVE_STOCKS).find(k=>st.name.includes(k.split(" ")[0]));
+    return s+(lk?LIVE_STOCKS[lk].price:(st.avgPrice||0))*(st.units||0);
+  },0);
+  const mfInvINR2=((S.investments||FL.investments).filter(i=>i.type==="MF")).reduce((s,i)=>s+(+i.invested||0),0);
+  const totalIndiaUSD2=(stocksCurrentINR2+mfInvINR2)/INR;
+  const loanLiab2=termL.reduce((s,l)=>s+(+l.emi||0)*(+l.monthsLeft||0),0);
+  const nwUSD2=bank+totalIndiaUSD2-loanLiab2;
+  if(nwUSD2<-50000)score-=20;
+  else if(nwUSD2<-20000)score-=12;
+  else if(nwUSD2<0)score-=6;
+  else if(nwUSD2>20000)score+=8;
+  else if(nwUSD2>10000)score+=4;
   score=Math.max(0,Math.min(100,score));
   const label=score>=80?"Excellent":score>=65?"Good":score>=45?"Fair":"Needs Attention";
-  const color=score>=80?"#10B981":score>=65?"#14B8A6":score>=45?"#F59E0B":"#EF4444";
-  // Net worth
+  const color=score>=80?"#0FD47B":score>=65?"#38E2C8":score>=45?"#FFBD3C":"#FF4B6E";
   const inv=S.investments||FL.investments;
-  const indStocksINR=inv.reduce((s,i)=>s+(+i.currentValue||0),0);
-  const indStocksUSD=indStocksINR/83.5;
-  const totalAssets=bank+indStocksUSD+invested*12; // rough annualised
-  const totalLiab=termLoans.reduce((s,l)=>s+(+l.emi||0)*(+l.monthsLeft||0),0);
-  const netWorth=totalAssets-totalLiab;
-  return{income,bank,loanEMI,termEMI,recurrEMI,termLoans,recurr,invested,varExp,cashLeft,wealthBuilding,debtR,score,label,color,loans,netWorth,totalAssets,totalLiab,indStocksUSD,indStocksINR};
+  const stocks=inv.filter(i=>i.type==="Stock");
+  let stocksCurrentINR=0;
+  stocks.forEach(s=>{
+    const lk=Object.keys(LIVE_STOCKS).find(k=>s.name.includes(k.split(" ")[0]));
+    const price=lk?LIVE_STOCKS[lk].price:(s.avgPrice||0);
+    stocksCurrentINR+=price*(s.units||0);
+  });
+  const mfs=inv.filter(i=>i.type==="MF");
+  const mfInvestedINR=mfs.reduce((s,i)=>s+(+i.invested||0),0);
+  const stockInvestedINR=stocks.reduce((s,i)=>s+(+i.invested||0),0);
+  const totalIndiaINR=stocksCurrentINR+mfInvestedINR;
+  const totalIndiaUSD=totalIndiaINR/INR;
+  const totalUSA=bank;
+  // loanLiab = remaining future payments (informational only, NOT subtracted from assets)
+  const loanLiab=termL.reduce((s,l)=>s+(+l.emi||0)*(+l.monthsLeft||0),0);
+  // Net worth = actual assets (USA cash + India portfolio converted to USD)
+  // Loans are future cash outflows, not a current balance-sheet liability to subtract from investment assets
+  const netWorthUSD=totalUSA+totalIndiaUSD;
+  const netWorthINR=netWorthUSD*INR;
+  return{income,bank,loanEMI,termEMI,recEMI,termL,recL,invested,varExp,cashLeft,wealthMo,debtR,score,label,color,loans,
+    stocksCurrentINR,mfInvestedINR,stockInvestedINR,totalIndiaINR,totalIndiaUSD,totalUSA,loanLiab,netWorthUSD,netWorthINR};
 }
 
-// ── LOAD DATA ──
 async function loadData(){
   document.getElementById("sync").textContent="⏳ Syncing...";
   try{
     const ctrl=new AbortController();
     setTimeout(()=>ctrl.abort(),8000);
     const res=await fetch(API+"?action=all&t="+Date.now(),{signal:ctrl.signal});
-    if(!res.ok) throw new Error("HTTP "+res.status);
+    if(!res.ok) throw new Error();
     const json=await res.json();
     if(json.ok&&json.data){
       if(json.data.loans?.length)       S.loans=json.data.loans;
@@ -179,17 +393,12 @@ async function loadData(){
       if(json.data.history?.length)     S.history=json.data.history;
       if(json.data.investments?.length) S.investments=json.data.investments;
       if(json.data.summary?.length)     S.summary=json.data.summary;
-      document.getElementById("sync").textContent=
-        "🟢 Live · "+new Date().toLocaleTimeString("en-US",{hour:"2-digit",minute:"2-digit"});
-    } else {
-      document.getElementById("sync").textContent="⚠️ Using local data";
-    }
+      const t=new Date().toLocaleDateString("en-IN",{day:"numeric",month:"short"})+" "+
+              new Date().toLocaleTimeString("en-US",{hour:"2-digit",minute:"2-digit"});
+      document.getElementById("sync").textContent="🟢 "+t;
+    } else document.getElementById("sync").textContent="📋 Saved data";
   }catch(e){
-    // FIX #2: Friendly offline message, not just "Offline"
-    if(e.name==="AbortError")
-      document.getElementById("sync").textContent="⏱️ Sheet timeout — showing saved data";
-    else
-      document.getElementById("sync").textContent="📴 No sheet connection — showing saved data";
+    document.getElementById("sync").textContent=e.name==="AbortError"?"⏱️ Timeout":"📴 Offline";
   }
   renderAll();
 }
@@ -197,366 +406,424 @@ async function loadData(){
 function renderAll(){
   const F=calcF();
   const b=document.getElementById("hbadge");
-  b.textContent=F.label+" · "+F.score+"/100";
-  b.style.cssText=`background:${F.color}22;color:${F.color};border:1px solid ${F.color}44;border-radius:20px;padding:3px 9px;font-size:10px;font-weight:700`;
-  renderOverview(F);renderLoans(F);renderExpenses();renderInvest();renderNetWorth(F);
+  b.textContent=F.label+" "+F.score;
+  b.style.cssText=`background:${F.color}18;color:${F.color};border:1px solid ${F.color}35;border-radius:20px;padding:3px 10px;font-size:10px;font-weight:700;letter-spacing:.3px`;
+  renderOverview(F);renderLoans(F);renderExpenses();renderInvest(F);renderInsights(F);
 }
 
-// ══ OVERVIEW ══
+// ══════════════════════════════════════════════
+//  OVERVIEW
+// ══════════════════════════════════════════════
 function renderOverview(F){
-  // FIX #1: Show BOTH cash savings AND wealth building
   document.getElementById("kpis").innerHTML=[
-    {l:"Monthly Income",  v:fmt(F.income),              s:"Take-home after tax",           c:"var(--green)", i:"💵"},
-    {l:"Total Outflow",   v:fmt(F.loanEMI+F.invested+F.varExp), s:"EMIs + bills + SIP + expenses", c:"var(--red)",  i:"📤"},
-    {l:"Cash Savings",    v:fmt(Math.max(F.cashLeft,0)),s:"Free cash after everything",    c:F.cashLeft>=0?"var(--amber)":"var(--red)", i:"💵"},
-    {l:"Wealth Building", v:fmt(F.wealthBuilding),       s:"Invested + cash saved / month", c:"var(--green)", i:"📈"},
-  ].map(t=>`
-    <div class="card mt">
-      <div class="mh"><span class="ml">${t.l}</span><span class="mi">${t.i}</span></div>
-      <div class="mv" style="color:${t.c}">${t.v}</div>
-      <div class="ms">${t.s}</div>
-    </div>`).join("");
+    {l:"Monthly Income",  v:fmt(F.income),              s:"Fixed till Feb 2027",                c:"var(--green)",  i:"💵"},
+    {l:"Total Outflow",   v:fmt(F.loanEMI+F.invested+F.varExp),s:"EMIs + bills + SIP",          c:"var(--red)",    i:"📤"},
+    {l:"Cash Left/mo",    v:fmt(Math.max(F.cashLeft,0)),s:F.cashLeft>=0?"Available monthly":"⚠️ Deficit", c:F.cashLeft>=0?"var(--amber)":"var(--red)",i:"💰"},
+    {l:"Wealth/mo",       v:fmt(F.wealthMo),            s:"Invested + savings",                 c:"var(--teal)",   i:"📈"},
+  ].map(t=>`<div class="card mt"><div class="mh"><span class="ml">${t.l}</span><span class="mi">${t.i}</span></div><div class="mv" style="color:${t.c}">${t.v}</div><div class="ms">${t.s}</div></div>`).join("");
 
-  // Score gauge
-  const r=50,cx=66,cy=66,toRad=d=>d*Math.PI/180,fill=(F.score/100)*240,sv=-210;
+  // Health score gauge
+  const r=48,cx=62,cy=64,toRad=d=>d*Math.PI/180,fill=(F.score/100)*240,sv=-210;
   const pt=a=>({x:cx+r*Math.cos(toRad(a)),y:cy+r*Math.sin(toRad(a))});
   const sp=pt(sv),ep=pt(30),fp=pt(sv+fill),lf=fill>180?1:0;
   document.getElementById("score-a").innerHTML=`
-    <div style="display:flex;align-items:center;gap:12px">
-      <svg width="132" height="108" viewBox="0 0 132 108" style="flex-shrink:0">
-        <path d="M${sp.x},${sp.y} A${r},${r} 0 1 1 ${ep.x},${ep.y}" fill="none" stroke="#2D3748" stroke-width="11" stroke-linecap="round"/>
-        <path d="M${sp.x},${sp.y} A${r},${r} 0 ${lf} 1 ${fp.x},${fp.y}" fill="none" stroke="${F.color}" stroke-width="11" stroke-linecap="round"/>
-        <text x="${cx}" y="${cx+4}" text-anchor="middle" fill="${F.color}" font-size="25" font-weight="800" font-family="monospace">${F.score}</text>
-        <text x="${cx}" y="${cx+19}" text-anchor="middle" fill="#8B949E" font-size="11">/100</text>
+    <div style="display:flex;flex-direction:column;align-items:center;gap:6px">
+      <svg width="110" height="92" viewBox="0 0 124 104" style="flex-shrink:0">
+        <defs><filter id="glow"><feGaussianBlur stdDeviation="3" result="blur"/><feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge></filter></defs>
+        <path d="M${sp.x},${sp.y} A${r},${r} 0 1 1 ${ep.x},${ep.y}" fill="none" stroke="#1E2D45" stroke-width="10" stroke-linecap="round"/>
+        <path d="M${sp.x},${sp.y} A${r},${r} 0 ${lf} 1 ${fp.x},${fp.y}" fill="none" stroke="${F.color}" stroke-width="10" stroke-linecap="round" filter="url(#glow)"/>
+        <text x="${cx}" y="${cx+2}" text-anchor="middle" fill="${F.color}" font-size="24" font-weight="800" font-family="monospace">${F.score}</text>
+        <text x="${cx}" y="${cx+17}" text-anchor="middle" fill="#667A99" font-size="9" font-weight="700" letter-spacing="1">/100</text>
       </svg>
-      <div>
-        <div style="font-size:14px;font-weight:800;color:${F.color};margin-bottom:7px">${F.label}</div>
-        <div style="font-size:11px;color:var(--sub);line-height:1.9">
-          Debt ratio: <strong style="color:var(--red)">${(F.debtR*100).toFixed(0)}%</strong><br>
-          Cash savings: <strong style="color:var(--amber)">${Math.max(0,(F.cashLeft/F.income*100)).toFixed(0)}%</strong><br>
-          Wealth/mo: <strong style="color:var(--green)">${fmt(F.wealthBuilding)}</strong><br>
-          Improves Dec 2026 🎯
+      <div style="text-align:center">
+        <div style="font-family:var(--display);font-size:13px;font-weight:800;color:${F.color};margin-bottom:6px">${F.label}</div>
+        <div style="font-size:10px;color:var(--sub2);line-height:2">
+          Debt: <strong style="color:var(--red)">${(F.debtR*100).toFixed(0)}%</strong><br>
+          Cash: <strong style="color:var(--amber)">${Math.max(0,(F.cashLeft/F.income*100)).toFixed(0)}%</strong><br>
+          NW: <strong style="color:${F.netWorthUSD>=0?"var(--green)":"var(--red)"}">${F.netWorthUSD>=0?"+":""}${fmt(F.netWorthUSD)}</strong>
         </div>
       </div>
     </div>`;
 
-  // Cashflow detail
-  document.getElementById("cf-a").innerHTML=[
-    {l:"💵 Income",          v:F.income,              c:"var(--green)"},
-    {l:"🏦 Loan EMIs",       v:-F.termEMI,            c:"var(--red)"},
-    {l:"🏠 Rent+Phone+Car",  v:-F.recurrEMI,          c:"var(--amber)"},
-    {l:"📈 US SIP (invested)",v:-F.invested,           c:"var(--purple)"},
-    {l:"🛒 Groceries (est)", v:-F.varExp,             c:"var(--teal)"},
-    {l:"💵 Cash Left/month", v:F.cashLeft,            c:F.cashLeft>=0?"var(--amber)":"var(--red)",bold:true},
-    {l:"📊 Total Wealth/mo", v:F.wealthBuilding,      c:"var(--green)",bold:true},
-  ].map(r=>`
-    <div class="row">
-      <span class="rl">${r.l}</span>
-      <span class="rv" style="color:${r.c};${r.bold?"font-size:14px;font-weight:800":""}">${r.v>0?"+":""}${fmt(Math.abs(r.v))}</span>
-    </div>`).join("");
+  // Waterfall
+  renderWaterfall(F);
 
-  // Pie
-  dc("pie");
-  const pc=document.getElementById("cpie");
-  if(pc) charts.pie=new Chart(pc,{
-    type:"doughnut",
-    data:{labels:["Term Loans","Rent/Bills","US SIP","Cash Saved"],
-      datasets:[{data:[F.termEMI,F.recurrEMI,F.invested,Math.max(F.cashLeft,0)],
-        backgroundColor:["#EF4444","#F59E0B","#8B5CF6","#10B981"],borderWidth:0,hoverOffset:4}]},
-    options:{cutout:"62%",plugins:{legend:{position:"bottom",labels:{color:"#8B949E",font:{size:10},padding:7,boxWidth:8}}}}
-  });
+  // Net Worth — Loans are US liabilities only
+  const nwUSAGross = F.bank;
+  const nwLiab     = F.loanLiab;          // all loans are in USD (US liabilities)
+  const nwUSANet   = nwUSAGross - nwLiab; // USA net = savings minus loan liabilities
+  const nwIndia    = F.totalIndiaUSD;     // India assets (no liabilities here)
+  const nwUSD      = nwUSANet + nwIndia;  // combined net worth
+  const nwINR      = nwUSD * INR;
+  document.getElementById("nw-overview").innerHTML=`
+    <div class="nwrow" style="background:rgba(79,142,247,.06);border-color:rgba(79,142,247,.15);padding:7px 9px;margin-bottom:4px">
+      <div>
+        <div style="font-size:9px;color:var(--sub);font-weight:700;margin-bottom:1px">🇺🇸 USA</div>
+        <div style="font-size:9px;color:var(--red);">−${fmt(nwLiab)} loans</div>
+      </div>
+      <div style="text-align:right">
+        <div style="font-family:var(--mono);font-weight:800;color:${nwUSANet>=0?"var(--accent)":"var(--red)"};font-size:12px">${nwUSANet>=0?"":"-"}${fmt(Math.abs(nwUSANet))}</div>
+        <div style="font-size:9px;color:var(--sub)">${nwUSANet>=0?"":"-"}${fmtI(Math.abs(nwUSANet*INR))}</div>
+      </div>
+    </div>
+    <div class="nwrow" style="background:rgba(56,226,200,.06);border-color:rgba(56,226,200,.15);padding:7px 9px;margin-bottom:4px">
+      <div>
+        <div style="font-size:9px;color:var(--sub);font-weight:700;margin-bottom:1px">🇮🇳 India</div>
+        <div style="font-size:9px;color:var(--sub)">Stocks + MFs</div>
+      </div>
+      <div style="text-align:right">
+        <div style="font-family:var(--mono);font-weight:800;color:var(--teal);font-size:12px">${fmt(nwIndia)}</div>
+        <div style="font-size:9px;color:var(--sub)">${fmtI(F.totalIndiaINR)}</div>
+      </div>
+    </div>
+    <div style="height:1px;background:linear-gradient(90deg,transparent,var(--border),transparent);margin:5px 0"></div>
+    <div style="text-align:center;padding:4px 0">
+      <div style="font-size:9px;color:var(--sub);font-weight:700;text-transform:uppercase;letter-spacing:.8px;margin-bottom:5px">Combined</div>
+      <div style="font-family:var(--mono);font-weight:800;font-size:17px;color:${nwUSD>=0?"var(--green)":"var(--red)"}">${nwUSD>=0?"":"-"}${fmt(Math.abs(nwUSD))}</div>
+      <div style="font-size:11px;font-weight:700;color:${nwINR>=0?"var(--teal)":"var(--red)"};margin-top:2px">${nwINR>=0?"":"-"}${fmtI(Math.abs(nwINR))}</div>
+      <div style="font-size:9px;color:var(--sub);margin-top:4px">@ ₹${INR}/$</div>
+    </div>`;
 
-  // History trend
-  const hist=S.history||[];
-  dc("cline");
-  const lc=document.getElementById("cline");
-  if(lc&&hist.length) charts.cline=new Chart(lc,{
-    type:"line",
-    data:{labels:hist.map(h=>h.month||h[0]),
-      datasets:[
-        {label:"Income", data:hist.map(h=>+(h.income||h[1])||0), borderColor:"#10B981",tension:.4,pointRadius:2,borderWidth:2,fill:false},
-        {label:"Savings",data:hist.map(h=>+(h.savings||h[6])||0),borderColor:"#3B82F6",tension:.4,pointRadius:2,borderWidth:2,fill:false},
-        {label:"EMIs",   data:hist.map(h=>+(h.emi||h[2])||0),    borderColor:"#EF4444",tension:.4,pointRadius:2,borderWidth:2,fill:false},
-      ]},
-    options:{plugins:{legend:{labels:{color:"#8B949E",font:{size:10},boxWidth:8,padding:6}}},
-      scales:{x:{ticks:{color:"#8B949E",font:{size:9}},grid:{color:"#2D3748"}},
-              y:{ticks:{color:"#8B949E",font:{size:9},callback:v=>"$"+v},grid:{color:"#2D3748"}}}}
-  });
-  else if(lc) document.getElementById("hist-placeholder").style.display="block";
+  renderForecastChart(F);
 }
 
-// ══ LOANS ══
+function renderWaterfall(F){
+  dc("cwf");
+  const ctx=document.getElementById("cwf");
+  if(!ctx) return;
+  const income=F.income, termEMI=F.termEMI, recEMI=F.recEMI, invested=F.invested, varExp=F.varExp;
+  const cashLeft=Math.max(F.cashLeft,0);
+  const labels=["Income","Loan EMIs","Rent/Bills","US SIP","Groceries","Cash Left"];
+  const starts=[0, income-termEMI, income-termEMI-recEMI, income-termEMI-recEMI-invested, income-termEMI-recEMI-invested-varExp, 0];
+  const values=[income, termEMI, recEMI, invested, varExp, cashLeft];
+  const colors=["#0FD47B","#FF4B6E","#FFBD3C","#9F7AEA","#38E2C8","#4F8EF7"];
+  charts.cwf=new Chart(ctx,{
+    type:"bar",
+    data:{
+      labels,
+      datasets:[
+        {label:"_base",data:starts,backgroundColor:"transparent",stack:"s"},
+        {label:"Amount",data:values,backgroundColor:colors,borderRadius:5,stack:"s"},
+      ]
+    },
+    options:{
+      plugins:{legend:{display:false},tooltip:{callbacks:{label:ctx=>{if(ctx.datasetIndex===0)return null;return " "+fmt(ctx.raw);}}}},
+      scales:{x:{ticks:{color:"#667A99",font:{size:9,family:"Roboto Slab"}},grid:{display:false},border:{display:false}},
+              y:{ticks:{color:"#667A99",font:{size:9},callback:v=>"$"+v},grid:{color:"#1E2D45"},border:{display:false}}}
+    }
+  });
+}
+
+function renderForecastChart(F){
+  dc("cforecast");
+  const ctx=document.getElementById("cforecast");
+  if(!ctx) return;
+  const months=["Apr 26","May 26","Jun 26","Jul 26","Aug 26","Sep 26","Oct 26","Nov 26","Dec 26","Jan 27","Feb 27","Mar 27","Apr 27","May 27","Jun 27"];
+  const incomeData=months.map((_,i)=>i<11?5626:5900);
+  const expenseData=months.map((_,i)=>{
+    let emi=F.termEMI+F.recEMI;
+    if(i>=8)  emi-=982;
+    if(i>=13) emi-=(267.68+360+280);
+    return Math.round(emi+F.invested+F.varExp);
+  });
+  const savingsData=months.map((_,i)=>Math.max(0,incomeData[i]-expenseData[i]));
+  charts.cforecast=new Chart(ctx,{
+    type:"line",
+    data:{
+      labels:months,
+      datasets:[
+        {label:"Income",    data:incomeData,  borderColor:"#0FD47B",backgroundColor:"rgba(15,212,123,.08)", borderWidth:2.5,pointRadius:3,pointBackgroundColor:"#0FD47B",fill:false,tension:.3},
+        {label:"Expenses",  data:expenseData, borderColor:"#FF4B6E",backgroundColor:"rgba(255,75,110,.08)",  borderWidth:2.5,pointRadius:3,pointBackgroundColor:"#FF4B6E",fill:false,tension:.3},
+        {label:"Savings",   data:savingsData, borderColor:"#4F8EF7",backgroundColor:"rgba(79,142,247,.12)",  borderWidth:2.5,pointRadius:3,pointBackgroundColor:"#4F8EF7",fill:true, tension:.3},
+      ]
+    },
+    options:{
+      interaction:{mode:"index",intersect:false},
+      plugins:{legend:{labels:{color:"#8A9EBB",font:{size:10,family:"Roboto Slab"},boxWidth:10,padding:10}},
+        tooltip:{callbacks:{label:ctx=>" "+ctx.dataset.label+": "+fmt(ctx.raw)}}},
+      scales:{
+        x:{ticks:{color:"#667A99",font:{size:8},maxRotation:35},grid:{display:false},border:{display:false}},
+        y:{ticks:{color:"#667A99",font:{size:8},callback:v=>"$"+v},grid:{color:"#1E2D45"},border:{display:false}}
+      }
+    }
+  });
+}
+
+// ══════════════════════════════════════════════
+//  LOANS
+// ══════════════════════════════════════════════
 function renderLoans(F){
   const loans=F.loans;
-  document.getElementById("loan-sum").innerHTML=`
-    <div class="g2">
-      <div class="card mt">
-        <div class="mh"><span class="ml">Total EMI</span><span class="mi">📅</span></div>
-        <div class="mv" style="color:var(--red)">${fmt(F.loanEMI)}</div>
-        <div class="ms">${(F.debtR*100).toFixed(0)}% of income</div>
-      </div>
-      <div class="card mt">
-        <div class="mh"><span class="ml">All Term Loans</span><span class="mi">🏁</span></div>
-        <div class="mv" style="color:var(--green);font-size:16px">Aug 2027</div>
-        <div class="ms">Every term loan ends ✅</div>
-      </div>
-    </div>`;
+  document.getElementById("loan-sum").innerHTML=`<div class="g2">
+    <div class="card mt card-glow-amber"><div class="mh"><span class="ml">Total EMI</span><span class="mi">📅</span></div><div class="mv" style="color:var(--red)">${fmt(F.loanEMI)}</div><div class="ms">${(F.debtR*100).toFixed(0)}% of income</div></div>
+    <div class="card mt card-glow-green"><div class="mh"><span class="ml">All Done By</span><span class="mi">🏁</span></div><div class="mv" style="color:var(--green);font-size:16px">Aug 2027</div><div class="ms">All term loans clear ✅</div></div>
+  </div>`;
 
-  document.getElementById("loans-list").innerHTML=loans.map(loan=>{
-    const ml=+loan.monthsLeft||0;
-    const pct=ml?Math.min(100,Math.max(8,100-(ml/24)*100)):null;
-    const ap=loan.autopay===true||loan.autopay==="true"||loan.autopay==="TRUE";
-    return`<div class="card" style="margin-bottom:10px">
-      <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:9px">
+  document.getElementById("loans-list").innerHTML=loans.map(l=>{
+    const ml=+l.monthsLeft||0,pct=ml?Math.min(100,Math.max(8,100-(ml/24)*100)):null;
+    const ap=l.autopay===true||l.autopay==="true"||l.autopay==="TRUE";
+    const endsClean=cleanEnds(l.ends);
+    return`<div class="loan-card">
+      <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:10px">
         <div>
-          <div class="lnm">${loan.name}</div>
+          <div class="loan-name">${l.name}</div>
           <div class="tags">
-            <span class="tag" style="background:rgba(59,130,246,.15);color:var(--accent)">Due ${loan.due}</span>
-            <span class="tag" style="background:${ap?"rgba(16,185,129,.15)":"rgba(239,68,68,.15)"};color:${ap?"var(--green)":"var(--red)"}">${ap?"✅ AutoPay":"⚠️ No AutoPay"}</span>
-            ${loan.ends!=="Ongoing"?`<span class="tag" style="background:rgba(20,184,166,.15);color:var(--teal)">Ends ${loan.ends}</span>`:""}
+            <span class="tag" style="background:rgba(79,142,247,.12);color:var(--accent)">Due ${l.due}</span>
+            <span class="tag" style="background:${ap?"rgba(15,212,123,.12)":"rgba(255,75,110,.12)"};color:${ap?"var(--green)":"var(--red)"}">${ap?"✅ AutoPay":"⚠️ Manual"}</span>
+            ${endsClean!=="Ongoing"?`<span class="tag" style="background:rgba(56,226,200,.12);color:var(--teal)">Ends ${endsClean}</span>`:`<span class="tag" style="background:rgba(102,122,153,.12);color:var(--sub2)">Recurring</span>`}
           </div>
         </div>
-        <div style="text-align:right;flex-shrink:0;margin-left:8px">
-          <div class="lamt">${fmt(loan.emi)}<span style="font-size:11px;color:var(--sub)">/mo</span></div>
-          <div style="font-size:10px;color:var(--sub)">${ml>0?ml+" mo · "+fmt(loan.emi*ml)+" left":"Recurring"}</div>
+        <div style="text-align:right;flex-shrink:0;margin-left:10px">
+          <div class="loan-emi">${fmt(l.emi)}<span style="font-size:10px;color:var(--sub);font-weight:500">/mo</span></div>
+          <div style="font-size:10px;color:var(--sub);margin-top:3px">${ml>0?ml+" mo left · "+fmt(l.emi*ml)+" total":"Recurring"}</div>
         </div>
       </div>
-      ${pct!==null?`<div class="ptrk"><div class="pfil" style="width:${pct}%;background:linear-gradient(90deg,var(--green),var(--accent))"></div></div>`:""}
+      ${pct!==null?`<div class="ptrk"><div class="pfil" style="width:${pct}%;background:linear-gradient(90deg,var(--green),var(--accent))"></div></div><div style="font-size:9px;color:var(--sub);text-align:right">${pct.toFixed(0)}% complete</div>`:""}
       ${!ap?`<div class="apw">⚠️ Set AutoPay to protect your credit score!</div>`:""}
     </div>`;
   }).join("");
 
-  // FIX #4: Loan timeline chart (horizontal bar showing months remaining)
-  dc("cltime");
-  const ltc=document.getElementById("cltime");
-  const tloans=F.termLoans;
-  if(ltc&&tloans.length) charts.cltime=new Chart(ltc,{
-    type:"bar",
-    data:{
-      labels:tloans.map(l=>l.name),
-      datasets:[{
-        label:"Months remaining",
-        data:tloans.map(l=>+l.monthsLeft||0),
-        backgroundColor:tloans.map(l=>{
-          const m=+l.monthsLeft||0;
-          return m<=8?"#10B981":m<=13?"#F59E0B":"#EF4444";
-        }),
-        borderRadius:5
-      }]
-    },
-    options:{
-      indexAxis:"y",
-      plugins:{
-        legend:{display:false},
-        tooltip:{callbacks:{label:ctx=>" "+ctx.raw+" months · ends "+tloans[ctx.dataIndex].ends}}
-      },
-      scales:{
-        x:{max:20,ticks:{color:"#8B949E",font:{size:9},callback:v=>v+" mo"},grid:{color:"#2D3748"}},
-        y:{ticks:{color:"#8B949E",font:{size:9}},grid:{display:false}}
-      }
-    }
-  });
-
-  // EMI bar
   dc("clbar");
-  const lbc=document.getElementById("clbar");
-  if(lbc) charts.clbar=new Chart(lbc,{
+  const bc=document.getElementById("clbar");
+  if(bc){
+    const colors=["#FF4B6E","#FFBD3C","#9F7AEA","#4F8EF7","#38E2C8","#0FD47B","#F06292","#F97316"];
+    charts.clbar=new Chart(bc,{
+      type:"bar",
+      data:{labels:loans.map(l=>l.name),datasets:[{label:"$/mo",data:loans.map(l=>+l.emi||0),backgroundColor:loans.map((_,i)=>colors[i%colors.length]),borderRadius:5}]},
+      options:{indexAxis:"y",plugins:{legend:{display:false}},
+        scales:{x:{ticks:{color:"#667A99",font:{size:9},callback:v=>"$"+v},grid:{color:"#1E2D45"},border:{display:false}},
+                y:{ticks:{color:"#8A9EBB",font:{size:9,family:"Space Grotesk"}},grid:{display:false},border:{display:false}}}}
+    });
+  }
+
+  dc("cltime");
+  const tc=document.getElementById("cltime");
+  const tl=F.termL;
+  if(tc&&tl.length) charts.cltime=new Chart(tc,{
     type:"bar",
-    data:{labels:loans.map(l=>l.name),datasets:[{label:"$/mo",data:loans.map(l=>+l.emi||0),backgroundColor:"#F59E0B",borderRadius:5}]},
-    options:{indexAxis:"y",plugins:{legend:{display:false}},scales:{x:{ticks:{color:"#8B949E",font:{size:9},callback:v=>"$"+v},grid:{color:"#2D3748"}},y:{ticks:{color:"#8B949E",font:{size:9}},grid:{display:false}}}}
+    data:{labels:tl.map(l=>l.name),
+      datasets:[{label:"Months left",data:tl.map(l=>+l.monthsLeft||0),
+        backgroundColor:tl.map(l=>{const m=+l.monthsLeft||0;return m<=8?"#0FD47B":m<=13?"#FFBD3C":"#FF4B6E";}),
+        borderRadius:5}]},
+    options:{indexAxis:"y",plugins:{legend:{display:false},tooltip:{callbacks:{label:ctx=>" "+ctx.raw+" months → "+cleanEnds(tl[ctx.dataIndex].ends)}}},
+      scales:{x:{max:18,ticks:{color:"#667A99",font:{size:8},callback:v=>v+" mo"},grid:{color:"#1E2D45"},border:{display:false}},
+              y:{ticks:{color:"#8A9EBB",font:{size:9}},grid:{display:false},border:{display:false}}}}
   });
 }
 
-// ══ EXPENSES ══
+// ══════════════════════════════════════════════
+//  EXPENSES
+// ══════════════════════════════════════════════
 function renderExpenses(){
   const exp=S.expenses||[];
   const el=document.getElementById("exp-list");
   if(!exp.length){
-    el.innerHTML=`<div style="text-align:center;padding:20px 0;color:var(--sub)">
-      <div style="font-size:28px;margin-bottom:8px">💬</div>
+    el.innerHTML=`<div style="text-align:center;padding:24px 0;color:var(--sub)">
+      <div style="font-size:32px;margin-bottom:10px">💬</div>
       <div style="font-size:13px;font-weight:700;color:var(--text);margin-bottom:6px">No expenses logged yet</div>
-      <div style="font-size:11px;line-height:1.8">Tell Claude:<br>
-      <span style="color:var(--green);font-weight:700">"Spent $45 on groceries today"</span></div>
+      <div style="font-size:11px;line-height:1.9;color:var(--sub2)">Tell Claude: <span style="color:var(--green);font-weight:700">"Spent $45 on groceries"</span></div>
     </div>`;
     return;
   }
   const total=exp.reduce((s,e)=>s+(+e.amount||0),0);
-  // FIX #11 + #3: Monthly view graph + simple dates
   const monthly={};
   exp.forEach(e=>{
     const d=new Date(e.date);
-    const key=isNaN(d)?e.date:(d.getFullYear()+"-"+(d.getMonth()+1).toString().padStart(2,"0"));
+    const key=isNaN(d.getTime())?(e.date||"Unknown"):(d.getFullYear()+"-"+(d.getMonth()+1).toString().padStart(2,"0"));
     monthly[key]=(monthly[key]||0)+(+e.amount||0);
   });
   const mKeys=Object.keys(monthly).sort();
-
   el.innerHTML=`
     <div style="display:flex;justify-content:space-between;padding:9px 0;border-bottom:1px solid var(--border);margin-bottom:10px">
-      <span style="font-weight:700;font-size:13px">Total logged</span>
+      <span style="font-weight:700;font-size:12px;color:var(--sub2)">Total logged</span>
       <span style="font-family:var(--mono);font-weight:800;color:var(--red);font-size:15px">${fmt(total)}</span>
     </div>
-    ${mKeys.length>1?`<canvas id="cmonthly" height="130" style="margin-bottom:14px"></canvas>`:""}
-    <div style="overflow-x:auto">
+    ${mKeys.length>0?`<canvas id="cmonthly" height="110" style="margin-bottom:14px"></canvas>`:""}
+    <div style="overflow-x:auto;border-radius:8px;border:1px solid var(--border)">
     <table class="etbl">
       <thead><tr><th>Date</th><th>Category</th><th>Amount</th><th>Note</th></tr></thead>
-      <tbody>${exp.slice().reverse().map(e=>`
-        <tr>
-          <td style="color:var(--sub);white-space:nowrap">${fmtD(e.date)}</td>
-          <td style="font-weight:600">${e.category||"—"}</td>
-          <td style="font-family:var(--mono);color:var(--red);font-weight:700;white-space:nowrap">${fmt(e.amount)}</td>
-          <td style="color:var(--sub)">${e.note||"—"}</td>
-        </tr>`).join("")}
+      <tbody>${exp.slice().reverse().map(e=>`<tr>
+        <td style="color:var(--sub2);white-space:nowrap">${fmtDate(e.date)}</td>
+        <td style="font-weight:600">${e.category||"—"}</td>
+        <td style="font-family:var(--mono);color:var(--red);font-weight:700;white-space:nowrap">${fmt(e.amount)}</td>
+        <td style="color:var(--sub)">${e.note||"—"}</td>
+      </tr>`).join("")}
       </tbody>
     </table></div>`;
-
-  if(mKeys.length>1){
+  if(mKeys.length>0){
     setTimeout(()=>{
       dc("cmonthly");
       const mc=document.getElementById("cmonthly");
       if(mc) charts.cmonthly=new Chart(mc,{
         type:"bar",
-        data:{labels:mKeys,datasets:[{label:"Expenses ($)",data:mKeys.map(k=>monthly[k]),backgroundColor:"#EF4444",borderRadius:5}]},
-        options:{plugins:{legend:{display:false}},scales:{x:{ticks:{color:"#8B949E",font:{size:9}},grid:{color:"#2D3748"}},y:{ticks:{color:"#8B949E",font:{size:9},callback:v=>"$"+v},grid:{color:"#2D3748"}}}}
+        data:{labels:mKeys.map(k=>{const[y,m]=k.split("-");return m?["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"][+m-1]+" "+y.slice(2):k;}),
+          datasets:[{label:"Expenses ($)",data:mKeys.map(k=>monthly[k]),backgroundColor:"#FF4B6E",borderRadius:5}]},
+        options:{plugins:{legend:{display:false}},
+          scales:{x:{ticks:{color:"#667A99",font:{size:8}},grid:{display:false},border:{display:false}},
+                  y:{ticks:{color:"#667A99",font:{size:8},callback:v=>"$"+v},grid:{color:"#1E2D45"},border:{display:false}}}}
       });
     },100);
   }
 }
 
-// ══ INVESTMENTS ══
-function renderInvest(){
+// ══════════════════════════════════════════════
+//  INVESTMENTS
+// ══════════════════════════════════════════════
+function renderInvest(F){
   const inv=S.investments||FL.investments;
-  const stocks=inv.filter(i=>i.type==="Stock"),mfs=inv.filter(i=>i.type==="MF");
-  const ts=stocks.reduce((s,i)=>s+(+i.invested||0),0);
-  const tm=mfs.reduce((s,i)=>s+(+i.invested||0),0);
-  const tsip=mfs.reduce((s,i)=>s+(+i.sip||0),0);
-  document.getElementById("inv-kpis").innerHTML=`
-    <div class="g2">
-      <div class="card mt"><div class="mh"><span class="ml">Stocks (₹)</span><span class="mi">📊</span></div><div class="mv" style="color:var(--teal);font-size:17px">${fmtI(ts)}</div><div class="ms">${stocks.length} stocks on Groww</div></div>
-      <div class="card mt"><div class="mh"><span class="ml">Mut. Funds</span><span class="mi">💰</span></div><div class="mv" style="color:var(--green);font-size:17px">${fmtI(tm)}</div><div class="ms">SIP ${fmtI(tsip)}/mo</div></div>
+  const stocks=inv.filter(i=>i.type==="Stock");
+  const mfs=inv.filter(i=>i.type==="MF");
+  const ppf=inv.filter(i=>i.type==="PPF");
+  const mfInvINR=mfs.reduce((s,i)=>s+(+i.invested||0),0);
+  const mfSIP=mfs.reduce((s,i)=>s+(+i.sip||0),0);
+
+  // Stock P&L summary
+  let totalInvested=0,totalCurrent=0;
+  stocks.forEach(s=>{
+    const lk=Object.keys(LIVE_STOCKS).find(k=>s.name.includes(k.split(" ")[0]));
+    const price=lk?LIVE_STOCKS[lk].price:(s.avgPrice||0);
+    totalCurrent+=price*(s.units||0);
+    totalInvested+=(+s.invested||0);
+  });
+  const stockPL=totalCurrent-totalInvested;
+  const stockPLPct=totalInvested>0?((stockPL/totalInvested)*100).toFixed(1):0;
+
+  document.getElementById("inv-kpis").innerHTML=`<div class="g2">
+    <div class="card mt card-glow-green">
+      <div class="mh"><span class="ml">Stocks Value</span><span class="mi">📊</span></div>
+      <div class="mv" style="color:var(--teal);font-size:16px">${fmtI(F.stocksCurrentINR)}</div>
+      <div class="ms" style="color:${stockPL>=0?"var(--green)":"var(--red)"}">${stockPL>=0?"+":""}${fmtI(Math.round(stockPL))} (${stockPLPct}%)</div>
+    </div>
+    <div class="card mt card-glow-purple">
+      <div class="mh"><span class="ml">Mut. Funds</span><span class="mi">💰</span></div>
+      <div class="mv" style="color:var(--purple);font-size:16px">${fmtI(mfInvINR)}</div>
+      <div class="ms">SIP ${fmtI(mfSIP)}/mo</div>
+    </div>
+  </div>`;
+
+  // Live stocks feed
+  const statusBar=`<div class="stk-refresh-bar">
+    <div class="stk-status"><div class="live-dot"></div><span id="stk-status-txt">${stocksLastFetch?"Live · "+stocksLastFetch.toLocaleTimeString("en-US",{hour:"2-digit",minute:"2-digit"}):"Tap to fetch live prices"}</span></div>
+    <button class="stk-refresh-btn" onclick="fetchLiveStocks()">🔄 Refresh</button>
+  </div>`;
+
+  document.getElementById("stk-list").innerHTML=statusBar+stocks.map(s=>{
+    const lk=Object.keys(LIVE_STOCKS).find(k=>s.name.includes(k.split(" ")[0]));
+    const live=lk?LIVE_STOCKS[lk]:null;
+    const curPrice=live?live.price:(s.avgPrice||0);
+    const curVal=curPrice*(s.units||0);
+    const invested=+s.invested||0;
+    const pl=curVal-invested;
+    const plPct=invested>0?((pl/invested)*100).toFixed(1):0;
+    const chSign=live&&live.ch>0?"+":"";
+    const dir=live?(live.ch>0?"up":live.ch<0?"down":"flat"):"flat";
+    return`<div class="stk-ticker ${dir}">
+      <div style="flex:1">
+        <div class="stk-nm">${s.name}</div>
+        <div class="stk-avg">Avg ₹${(s.avgPrice||0).toLocaleString("en-IN")} · ${s.units||0} units${live&&live.fetched?' · <span style="color:var(--green);font-size:9px">LIVE</span>':''}</div>
+      </div>
+      <div style="text-align:right">
+        <div class="stk-pr" style="color:${pl>=0?"var(--green)":"var(--red)"}">₹${curPrice.toLocaleString("en-IN")}</div>
+        ${live?`<div class="stk-ch" style="color:${live.ch>0?"var(--green)":live.ch<0?"var(--red)":"var(--sub2)"};background:${live.ch>0?"rgba(15,212,123,.1)":live.ch<0?"rgba(255,75,110,.1)":"rgba(102,122,153,.1)"}">${chSign}${live.ch}%</div>`:""}
+        <div style="font-size:10px;color:${pl>=0?"var(--green)":"var(--red)"};font-family:var(--mono)">${pl>=0?"+":""}${fmtI(Math.round(pl))} (${plPct}%)</div>
+      </div>
     </div>`;
-  document.getElementById("stk-list").innerHTML=stocks.map((s,i)=>{
-    const pl=(+s.currentValue||+s.invested)-(+s.invested||0);
-    return`<div class="irow" style="background:${i%2===0?"var(--surface)":"var(--card)"}">
-      <div><div class="inm">${s.name}</div><span class="tag" style="background:rgba(20,184,166,.15);color:var(--teal)">Stock · ${s.units||"—"} units</span></div>
-      <div><div class="ival">${fmtI(s.invested)}</div><div class="isip" style="color:${pl>=0?"var(--green)":"var(--red)"}">${pl>=0?"+":""}${fmtI(pl)}</div></div>
-    </div>`;}).join("");
-  document.getElementById("mf-list").innerHTML=mfs.map((f,i)=>
-    `<div class="irow" style="background:${i%2===0?"var(--surface)":"var(--card)"}">
-      <div><div class="inm">${f.name}</div><span class="tag" style="background:rgba(139,92,246,.15);color:var(--purple)">MF</span></div>
-      <div><div class="ival">${fmtI(f.invested)}</div><div class="isip" style="color:${+f.sip>0?"var(--green)":"var(--sub)"}">${+f.sip>0?"SIP "+fmtI(f.sip)+"/mo":"One-time"}</div></div>
+  }).join("");
+
+  // NIFTYBEES affordability
+  const weeklyINR=1000, monthlyINR=4000, monthlyUSD=monthlyINR/INR;
+  const canAfford=F.cashLeft>monthlyUSD;
+  document.getElementById("bees-affordability").innerHTML=`
+    <div class="afford-box" style="border-color:${canAfford?"rgba(15,212,123,.35)":"rgba(255,189,60,.35)"};background:${canAfford?"rgba(15,212,123,.05)":"rgba(255,189,60,.05)"}">
+      <div style="font-size:13px;font-weight:800;color:${canAfford?"var(--green)":"var(--amber)"};margin-bottom:10px;font-family:var(--display)">
+        ${canAfford?"✅ Yes, you can afford it!":"⚠️ Tight, but manageable"}
+      </div>
+      <div class="row"><span class="rl">NIFTYBEES price (21 Apr 2026)</span><span class="rv">₹275.21</span></div>
+      <div class="row"><span class="rl">Units per week (₹1,000)</span><span class="rv">~3.6 units</span></div>
+      <div class="row"><span class="rl">Monthly cost</span><span class="rv" style="color:var(--amber)">₹4,000 (~${fmt(monthlyUSD)})</span></div>
+      <div class="row"><span class="rl">Your free cash/month</span><span class="rv" style="color:${canAfford?"var(--green)":"var(--red)"}">${fmt(F.cashLeft)}</span></div>
+      <div class="row"><span class="rl">Cash remaining after BeES</span><span class="rv" style="color:${F.cashLeft-monthlyUSD>0?"var(--green)":"var(--red)"}">${fmt(F.cashLeft-monthlyUSD)}</span></div>
+      <div style="margin-top:10px;font-size:11px;color:var(--sub2);line-height:1.8;background:var(--surface);border-radius:8px;padding:10px 12px">
+        <strong style="color:var(--text)">Recommendation:</strong> ₹1,000/week = ~$48/mo. NIFTYBEES tracks Nifty 50 with just 0.04% expense ratio. 5-year return: <strong style="color:var(--green)">+16.5% annualised</strong>.
+      </div>
+    </div>`;
+
+  document.getElementById("mf-list").innerHTML=[...mfs,...ppf].map((f,i)=>`
+    <div class="irow" style="background:${i%2===0?"var(--surface)":"var(--card2)"}">
+      <div style="flex:1">
+        <div class="inm">${f.name}</div>
+        <span class="tag" style="background:${f.type==="PPF"?"rgba(15,212,123,.12)":"rgba(159,122,234,.12)"};color:${f.type==="PPF"?"var(--green)":"var(--purple)"}">${f.type}</span>
+        ${f.note?`<div style="font-size:10px;color:var(--sub);margin-top:3px">${f.note}</div>`:""}
+      </div>
+      <div>
+        <div class="ival">${f.invested>0?fmtI(f.invested):f.type==="PPF"?"Annual bonus":"—"}</div>
+        <div class="isip" style="color:${+f.sip>0?"var(--green)":"var(--sub)"}">${+f.sip>0?"SIP "+fmtI(f.sip)+"/mo":f.type==="PPF"?"₹1.5L/yr":"One-time"}</div>
+      </div>
     </div>`).join("")+
-    `<div style="display:flex;justify-content:space-between;padding:9px 11px;background:var(--border);border-radius:8px;margin-top:5px">
-      <span style="font-weight:800;font-size:13px">Total</span>
-      <span style="font-family:var(--mono);font-weight:800;color:var(--green)">${fmtI(tm)} <span style="font-size:10px;color:var(--sub)">SIP ${fmtI(tsip)}/mo</span></span>
+    `<div style="display:flex;justify-content:space-between;padding:10px 12px;background:var(--border);border-radius:9px;margin-top:6px">
+      <span style="font-weight:800;font-size:12px">Total MF Invested</span>
+      <span style="font-family:var(--mono);font-weight:800;color:var(--green);font-size:13px">${fmtI(mfInvINR)}</span>
     </div>`;
 }
 
-// ══ NET WORTH ══
-function renderNetWorth(F){
-  const inv=S.investments||FL.investments;
-  const totalInvINR=inv.reduce((s,i)=>s+(+i.currentValue||0),0);
-  const totalInvUSD=totalInvINR/83.5;
-  const bankUSD=F.bank;
-  // Liabilities = remaining loan payments
-  const termLiab=F.termLoans.reduce((s,l)=>s+(+l.emi||0)*(+l.monthsLeft||0),0);
+// ══════════════════════════════════════════════
+//  INSIGHTS
+// ══════════════════════════════════════════════
+function renderInsights(F){}
 
-  document.getElementById("nw-assets").innerHTML=`
-    <div class="nw-row" style="background:rgba(16,185,129,.08)">
-      <span style="font-size:12px;color:var(--sub)">💵 US Bank Savings</span>
-      <span style="font-family:var(--mono);font-weight:700;color:var(--green)">${fmt(bankUSD)}</span>
-    </div>
-    <div class="nw-row" style="background:var(--surface)">
-      <span style="font-size:12px;color:var(--sub)">📊 Indian Investments (USD equiv)</span>
-      <span style="font-family:var(--mono);font-weight:700;color:var(--teal)">${fmt(totalInvUSD)}</span>
-    </div>
-    <div class="nw-row" style="background:var(--surface)">
-      <span style="font-size:12px;color:var(--sub)">📈 Indian Investments (₹)</span>
-      <span style="font-family:var(--mono);font-weight:700;color:var(--teal)">${fmtI(totalInvINR)}</span>
-    </div>
-    <div class="nw-row" style="background:rgba(239,68,68,.08)">
-      <span style="font-size:12px;color:var(--sub)">🏦 Remaining Loan Obligations</span>
-      <span style="font-family:var(--mono);font-weight:700;color:var(--red)">-${fmt(termLiab)}</span>
-    </div>
-    <div style="display:flex;justify-content:space-between;padding:11px 12px;background:var(--border);border-radius:9px;margin-top:6px">
-      <span style="font-weight:800;font-size:14px">Est. Net Worth (USD)</span>
-      <span style="font-family:var(--mono);font-weight:800;font-size:16px;color:${(bankUSD+totalInvUSD-termLiab)>=0?"var(--green)":"var(--red)"}">
-        ${bankUSD+totalInvUSD-termLiab>=0?"":"-"}${fmt(Math.abs(bankUSD+totalInvUSD-termLiab))}
-      </span>
-    </div>
-    <div style="font-size:10px;color:var(--sub);margin-top:8px;text-align:center">Note: Net worth grows significantly after Aug 2027 when all term loans end 📈</div>`;
-}
-
-// ══ AI ADVISOR ══
 async function getAdvice(){
   const btn=document.getElementById("abtn"),out=document.getElementById("aout");
   btn.disabled=true;btn.textContent="⏳ Analyzing...";
-  out.innerHTML=`<div class="lbar"><div class="lfil"></div></div><div style="color:var(--sub);font-size:12px;margin-top:8px;text-align:center">Reading your Google Sheet...</div>`;
+  out.innerHTML=`<div class="lbar"><div class="lfil"></div></div><div style="color:var(--sub);font-size:11px;margin-top:8px;text-align:center">Reading your financial data...</div>`;
   const F=calcF();
   const exp=S.expenses||[];
   const expT=exp.reduce((s,e)=>s+(+e.amount||0),0);
-  // FIX #5: Executive-level insights prompt
-  const prompt=`You are a sharp executive financial advisor for Priya, a professional earning $5,626/month in the USA with Indian financial ties.
+  const prompt=`Executive financial advisor for Priya. Income $${F.income}/mo (fixed till Feb 2027). EMIs $${F.loanEMI.toFixed(0)}/mo (${(F.debtR*100).toFixed(0)}%). Cash left $${F.cashLeft.toFixed(0)}/mo. Bank $${F.bank}. Expenses logged: $${expT}. Indian portfolio: stocks ₹${F.stocksCurrentINR.toFixed(0)} + MFs ₹${F.mfInvestedINR}. Net worth USD: ${fmt(F.netWorthUSD)} / INR: ${fmtI(F.netWorthINR)}. Score: ${F.score}/100.
 
-LIVE FINANCIAL DATA:
-- Income: $${F.income}/mo | Bank: $${F.bank} | Health Score: ${F.score}/100
-- EMIs: $${F.loanEMI.toFixed(0)}/mo (${(F.debtR*100).toFixed(0)}% of income)
-  * Sofi $1600 (ends Aug 2027, rate ~6.59%)
-  * Discover $982 (ends Dec 2026) ← BIGGEST OPPORTUNITY
-  * Apple $268, Citi $360, Wells Fargo $280 (all end May 2027)
-  * Rent $900, Phone $117, Insurance $160 (recurring)
-- US SIP: $500/mo | Indian SIP: ₹20,000/mo | Cash savings: $${F.cashLeft.toFixed(0)}/mo
-- Expenses logged this period: $${expT} (${exp.length} transactions)
-- Annual bonus: ~$4,000 → sends ₹1.5L to India for PPF
+Executive brief, max 220 words:
+📊 **Position Summary** (2 sentences)
+🚨 **30-Day Priority** (specific action + dollar amount)
+💡 **Quarter Strategy** (one high-impact move)
+🔮 **Dec 2026 Plan** ($982 freed from Discover — exact allocation)
+📈 **2027 Wealth Target** (concrete number in USD and INR)
 
-Write an EXECUTIVE FINANCIAL BRIEF (max 250 words). Be decisive, use exact numbers:
-
-📊 **FINANCIAL POSITION SUMMARY**
-(2 sentences — honest executive assessment)
-
-🚨 **TOP PRIORITY ACTION** (next 30 days)
-(specific dollar amount and exact action)
-
-💡 **STRATEGIC MOVE THIS QUARTER**
-(one high-impact decision with numbers)
-
-🔮 **DEC 2026 INFLECTION POINT**
-(exactly what to do with $982 freed from Discover — specific allocation)
-
-🏠 **2027 HOME BUYING READINESS**
-(honest assessment — India OR USA — with what she needs to prepare now)
-
-📈 **WEALTH TRAJECTORY**
-(where she'll be financially by Dec 2027 if she executes correctly)
-
-Write like a McKinsey advisor — direct, data-driven, no fluff.`;
+McKinsey style. Direct. Data-driven. No fluff.`;
   try{
-    const res=await fetch("https://api.anthropic.com/v1/messages",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({model:"claude-sonnet-4-20250514",max_tokens:1200,messages:[{role:"user",content:prompt}]})});
+    const res=await fetch("https://api.anthropic.com/v1/messages",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({model:"claude-sonnet-4-20250514",max_tokens:1000,messages:[{role:"user",content:prompt}]})});
     const json=await res.json();
     out.innerHTML=`<div class="aout-box">${json.content?.map(b=>b.text||"").join("")||"Could not generate."}</div>`;
-  }catch{out.innerHTML=`<div style="color:var(--red);font-size:12px;padding:10px">⚠️ No connection. Check internet and try again.</div>`;}
-  btn.disabled=false;btn.textContent="🔄 Refresh Advice";
+  }catch{out.innerHTML=`<div style="color:var(--red);font-size:11px;padding:10px;background:rgba(255,75,110,.08);border-radius:8px">⚠️ No connection. Try again.</div>`;}
+  btn.disabled=false;btn.textContent="🔄 Refresh Brief";
 }
 
 function switchTab(tab){
   document.querySelectorAll(".tp").forEach(p=>p.classList.remove("active"));
-  document.querySelectorAll(".nitem").forEach(b=>b.classList.remove("active"));
+  document.querySelectorAll(".ni").forEach(b=>b.classList.remove("active"));
   document.getElementById("tab-"+tab).classList.add("active");
   document.querySelector(`[data-tab="${tab}"]`).classList.add("active");
   window.scrollTo(0,0);
 }
-
-document.addEventListener("DOMContentLoaded",()=>{loadData();setInterval(loadData,30000);});
+document.addEventListener("DOMContentLoaded",()=>{
+  loadData();
+  setInterval(loadData,30000);
+  // Fetch live stocks on load, then every 5 minutes
+  fetchLiveStocks();
+  setInterval(fetchLiveStocks, 5*60*1000);
+});
 </script>
 
 <!-- HEADER -->
 <header class="hdr">
   <div class="logo">
     <div class="logo-ic">💹</div>
-    <div><div class="logo-nm">FinHealth</div><div class="logo-sb" id="sync">Connecting...</div></div>
+    <div>
+      <div class="logo-nm">FinHealth</div>
+      <div class="logo-sb" id="sync">Connecting...</div>
+    </div>
   </div>
   <div class="hdr-r">
-    <span id="hbadge" class="badge">Loading...</span>
-    <button class="btn-sm" onclick="loadData()">🔄</button>
+    <span id="hbadge" class="bdg">Loading...</span>
+    <button class="bsm" onclick="loadData()">🔄</button>
   </div>
 </header>
 
@@ -566,36 +833,39 @@ document.addEventListener("DOMContentLoaded",()=>{loadData();setInterval(loadDat
 <div class="tp active" id="tab-overview">
   <div class="g2" id="kpis"><div class="loader" style="grid-column:1/-1"><div class="spin"></div> Loading...</div></div>
 
-  <div class="card"><div class="ct">Health Score</div><div id="score-a"></div></div>
-  <div class="card"><div class="ct">Where Your Money Goes</div><canvas id="cpie" height="200"></canvas></div>
-  <div class="card"><div class="ct">Monthly Cashflow Breakdown</div><div id="cf-a"></div></div>
-
-  <div class="card" style="border-color:rgba(16,185,129,.4)">
-    <div class="ct">🎯 Dec 2026 Game-Changer</div>
-    <div style="font-size:12px;color:var(--sub);margin-bottom:11px;line-height:1.7">When <strong style="color:var(--amber)">Discover ends</strong>, you free up <strong style="color:var(--green)">$982/month</strong> — that's your turning point!</div>
-    <div class="gcr"><span style="font-size:12px;color:var(--sub)">Now (Apr 2026)</span><span style="font-family:var(--mono);font-weight:800;color:var(--amber)">$359 cash + $500 invested</span></div>
-    <div class="gcr"><span style="font-size:12px;color:var(--sub)">Dec 2026 (Discover ends)</span><span style="font-family:var(--mono);font-weight:800;color:var(--green)">$1,341/mo wealth</span></div>
-    <div class="gcr"><span style="font-size:12px;color:var(--sub)">Aug 2027 (all loans end)</span><span style="font-family:var(--mono);font-weight:800;color:var(--teal)">$3,846/mo wealth 🎉</span></div>
-    <div style="font-size:11px;color:var(--green);font-weight:700;margin-top:9px">⏰ 16 months to transform your finances. Hold tight! 💪</div>
+  <!-- Net Worth (left) + Health Score (right) side by side -->
+  <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px">
+    <div class="card card-glow-blue" style="padding:12px 13px">
+      <div class="ct">💎 Net Worth</div>
+      <div id="nw-overview"><div class="loader" style="padding:10px 0"><div class="spin"></div></div></div>
+    </div>
+    <div class="card" style="padding:12px 13px">
+      <div class="ct">Health Score</div>
+      <div id="score-a"></div>
+    </div>
   </div>
 
   <div class="card">
-    <div class="ct">📅 Monthly History</div>
-    <canvas id="cline" height="170"></canvas>
-    <div id="hist-placeholder" style="display:none;color:var(--sub);font-size:11px;text-align:center;padding:10px">Add monthly records to see trend chart here</div>
+    <div class="ct">Where Your Money Goes</div>
+    <canvas id="cwf" height="140"></canvas>
   </div>
 
   <div class="card">
-    <div style="font-size:12px;font-weight:800;color:var(--green);margin-bottom:10px">✅ Do's</div>
-    <div class="di"><span style="color:var(--green);font-weight:700;flex-shrink:0">→</span>Use $4K annual bonus → PPF ₹1.5L for father (7.1% guaranteed, tax-free)</div>
-    <div class="di"><span style="color:var(--green);font-weight:700;flex-shrink:0">→</span>Dec 2026: redirect $982 straight to investments — don't lifestyle-inflate</div>
-    <div class="di"><span style="color:var(--green);font-weight:700;flex-shrink:0">→</span>Move $6K to Marcus/Ally savings (4-5% APY vs 0% checking)</div>
-    <div class="di"><span style="color:var(--green);font-weight:700;flex-shrink:0">→</span>Keep all ₹20K/mo Groww SIPs running — compounding is working</div>
-    <div style="font-size:12px;font-weight:800;color:var(--red);margin:12px 0 10px">❌ Don'ts</div>
-    <div class="di"><span style="color:var(--red);font-weight:700;flex-shrink:0">×</span>Don't take any new loan — 62% debt ratio is your only real problem</div>
-    <div class="di"><span style="color:var(--red);font-weight:700;flex-shrink:0">×</span>Don't buy property before Aug 2027 — cash flow too tight right now</div>
-    <div class="di"><span style="color:var(--red);font-weight:700;flex-shrink:0">×</span>Don't aggressively prepay Sofi (6.59%) — market returns ~10% avg, invest instead</div>
-    <div class="di"><span style="color:var(--red);font-weight:700;flex-shrink:0">×</span>Don't miss Groww SIP — every break costs compounding momentum</div>
+    <div class="ct">📅 Income vs Expenses vs Savings (Apr 2026 – Jun 2027)</div>
+    <div style="font-size:10px;color:var(--sub);margin-bottom:9px">Milestones: Dec'26 (Discover ✅) · May'27 (3 loans ✅) · Aug'27 (SoFi ✅)</div>
+    <canvas id="cforecast" height="150"></canvas>
+  </div>
+
+  <div class="card">
+    <div class="sh-green">✅ Do's</div>
+    <div class="di"><span style="color:var(--green);font-weight:800;flex-shrink:0;font-size:13px">→</span>Annual $4K bonus → PPF ₹1.5L for father (your savings, his name)</div>
+    <div class="di"><span style="color:var(--green);font-weight:800;flex-shrink:0;font-size:13px">→</span>Dec 2026: $982 freed → 70% invest, 30% emergency fund</div>
+    <div class="di"><span style="color:var(--green);font-weight:800;flex-shrink:0;font-size:13px">→</span>Move $6K to Marcus/Ally savings — 4-5% APY vs 0%</div>
+    <div class="di"><span style="color:var(--green);font-weight:800;flex-shrink:0;font-size:13px">→</span>Start NIFTYBEES ₹1,000/week on Groww (only $48/mo)</div>
+    <div class="sh-red" style="margin-top:12px">❌ Don'ts</div>
+    <div class="di"><span style="color:var(--red);font-weight:800;flex-shrink:0;font-size:13px">×</span>Don't take any new loan — 62% DTI already at limit</div>
+    <div class="di"><span style="color:var(--red);font-weight:800;flex-shrink:0;font-size:13px">×</span>Don't buy property before Aug 2027 — cash flow too tight</div>
+    <div class="di"><span style="color:var(--red);font-weight:800;flex-shrink:0;font-size:13px">×</span>Don't aggressively prepay SoFi (6.59%) — invest instead</div>
   </div>
 </div>
 
@@ -603,30 +873,22 @@ document.addEventListener("DOMContentLoaded",()=>{loadData();setInterval(loadDat
 <div class="tp" id="tab-loans">
   <div id="loan-sum"></div>
   <div id="loans-list"></div>
-  <!-- FIX #4: Loan Timeline Chart -->
-  <div class="card">
-    <div class="ct">📅 Loan Completion Timeline</div>
-    <div style="font-size:11px;color:var(--sub);margin-bottom:10px">🟢 = ending soon (≤8 mo) &nbsp; 🟡 = mid-term &nbsp; 🔴 = longest</div>
-    <canvas id="cltime" height="180"></canvas>
-  </div>
   <div class="card">
     <div class="ct">EMI Breakdown</div>
-    <canvas id="clbar" height="210"></canvas>
+    <canvas id="clbar" height="200"></canvas>
   </div>
-  <!-- FIX #15: SoFi analysis -->
-  <div class="card" style="border-color:rgba(245,158,11,.4)">
-    <div style="font-size:13px;font-weight:800;color:var(--amber);margin-bottom:10px">🤔 Should You Pay Down SoFi Faster?</div>
-    <div style="background:var(--surface);border-radius:8px;padding:11px 13px;margin-bottom:10px">
-      <div style="font-size:12px;font-weight:700;margin-bottom:6px">The Math (SoFi rate: ~6.59%)</div>
-      <div class="row"><span class="rl">Paying extra on SoFi saves</span><span class="rv" style="color:var(--amber)">6.59% guaranteed</span></div>
-      <div class="row"><span class="rl">S&P 500 historical avg return</span><span class="rv" style="color:var(--green)">~10% (not guaranteed)</span></div>
-      <div class="row"><span class="rl">Extra $200/mo to SoFi saves</span><span class="rv" style="color:var(--amber)">~$850 total interest</span></div>
-      <div class="row"><span class="rl">Same $200/mo invested in index</span><span class="rv" style="color:var(--green)">~$3,500 in 16 mo</span></div>
-    </div>
-    <div style="font-size:12px;color:var(--sub);line-height:1.8">
-      <strong style="color:var(--text)">My recommendation:</strong> Don't aggressively prepay SoFi at 6.59%. The spread between 6.59% (debt cost) and ~10% (investment return) is enough to favour investing — especially in index funds.<br><br>
-      <strong style="color:var(--amber)">Exception:</strong> If you get a windfall (bonus, tax refund), put 50% toward SoFi, 50% into investments. This gives you the best of both.
-    </div>
+  <div class="card">
+    <div class="ct">📅 Loan Timeline</div>
+    <div style="font-size:10px;color:var(--sub);margin-bottom:8px">🟢 ends soon · 🟡 mid · 🔴 longest</div>
+    <canvas id="cltime" height="150"></canvas>
+  </div>
+  <div class="card card-glow-amber">
+    <div style="font-size:13px;font-weight:800;color:var(--amber);margin-bottom:10px;font-family:var(--display)">🤔 Should You Prepay SoFi (~6.59%)?</div>
+    <div class="row"><span class="rl">Prepaying SoFi saves</span><span class="rv" style="color:var(--amber)">6.59% guaranteed</span></div>
+    <div class="row"><span class="rl">Investing in index funds earns</span><span class="rv" style="color:var(--green)">~10% (historical avg)</span></div>
+    <div class="row"><span class="rl">Extra $200/mo to SoFi saves</span><span class="rv" style="color:var(--amber)">~$850 interest</span></div>
+    <div class="row"><span class="rl">Same $200/mo invested</span><span class="rv" style="color:var(--green)">~$3,500 in 16 months</span></div>
+    <div style="margin-top:10px;font-size:11px;color:var(--sub2);line-height:1.8;background:var(--surface);border-radius:8px;padding:10px 12px"><strong style="color:var(--text)">Verdict:</strong> Don't prepay aggressively. The 3.41% spread (10% - 6.59%) favours investing. On windfalls: 50% SoFi, 50% invest.</div>
   </div>
 </div>
 
@@ -634,178 +896,105 @@ document.addEventListener("DOMContentLoaded",()=>{loadData();setInterval(loadDat
 <div class="tp" id="tab-expenses">
   <div class="card">
     <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:11px">
-      <div><div class="ct" style="margin-bottom:2px">Live Expenses</div><div style="font-size:10px;color:var(--sub)">From Google Sheet · auto-syncs</div></div>
-      <button class="btn-sm" onclick="loadData()">🔄</button>
+      <div><div class="ct" style="margin-bottom:1px">Live Expenses</div><div style="font-size:9px;color:var(--sub);font-weight:500">From Google Sheet · auto-syncs every 30s</div></div>
+      <button class="bsm" onclick="loadData()">🔄 Sync</button>
     </div>
     <div id="exp-list"><div class="loader"><div class="spin"></div> Loading...</div></div>
   </div>
-  <div class="card" style="border-color:rgba(59,130,246,.4)">
+  <div class="card card-glow-blue">
     <div class="ct">💬 How to Log Expenses</div>
     <div class="tipbox">
-      <span style="color:var(--green);font-weight:700">"Spent $45 on groceries today"</span><br>
-      <span style="color:var(--green);font-weight:700">"Netflix $12 today"</span><br>
+      <span style="color:var(--green);font-weight:700">"Spent $45 on groceries"</span><br>
+      <span style="color:var(--green);font-weight:700">"Netflix $12"</span><br>
       <span style="color:var(--green);font-weight:700">"Uber $18 yesterday"</span><br>
-      <span style="color:var(--green);font-weight:700">"Salary this month was $5800"</span><br>
-      <span style="color:var(--green);font-weight:700">"Bank balance is now $6,200"</span>
+      <span style="color:var(--green);font-weight:700">"Salary this month $5800"</span>
     </div>
-    <div style="margin-top:7px;font-size:11px;color:var(--sub)">Tell Claude → I update your Sheet → tap 🔄 to see here</div>
   </div>
 </div>
 
 <!-- ══ INVESTMENTS ══ -->
 <div class="tp" id="tab-invest">
   <div id="inv-kpis"></div>
-  <div class="card"><div class="ct">📈 Groww Stocks</div><div id="stk-list"></div></div>
-  <div class="card"><div class="ct">💰 Mutual Funds</div><div id="mf-list"></div></div>
 
-  <!-- FIX #13: Investment methods beyond PPF -->
+  <div class="card card-glow-green">
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px">
+      <div class="ct" style="margin-bottom:0">📈 Live Stocks (NSE)</div>
+    </div>
+    <div id="stk-list"><div class="loader"><div class="spin"></div> Loading stocks...</div></div>
+  </div>
+
   <div class="card">
-    <div class="ct">🇮🇳 Indian Investment Methods for You</div>
-    <div style="font-size:11px;color:var(--sub);margin-bottom:10px">Ranked by fit for your situation (NRI earning in USD with ₹1.5L annual bonus)</div>
-    ${[
-      {r:"⭐⭐⭐",name:"PPF (Public Provident Fund)",desc:"₹1.5L/yr limit • 7.1% guaranteed • Tax-free maturity • Perfect for your $4K bonus → ₹1.5L • 15 yr lock-in but partial withdrawal after 7 yrs",risk:"None",ret:"7.1%"},
-      {r:"⭐⭐⭐",name:"Nifty 50 / Sensex Index Funds",desc:"You already have ICICI Nifty 50 ✅ • Low cost (0.1% expense ratio) • Best long-term India bet • Add more via Groww SIP",risk:"Medium",ret:"12-14%"},
-      {r:"⭐⭐⭐",name:"NPS (National Pension System)",desc:"Up to ₹50K extra tax deduction • 60% equity allocation • Locks until age 60 but tax-efficient • Good for retirement corpus",risk:"Medium",ret:"10-12%"},
-      {r:"⭐⭐",name:"Sovereign Gold Bonds (SGBs)",desc:"2.5% interest + gold price appreciation • RBI backed • No storage • Tax-free if held till 8 yrs • Buy when gold corrects",risk:"Low",ret:"8-12%"},
-      {r:"⭐⭐",name:"ELSS Tax-Saving Funds (80C)",desc:"3yr lock-in • Tax deduction up to ₹1.5L • Higher returns than PPF • You already use 80C via PPF though",risk:"High",ret:"14-16%"},
-      {r:"⭐⭐",name:"REITs (Indian Real Estate)",desc:"Embassy, Mindspace, Brookfield • Dividend income 6-8% • Better than buying property directly for NRIs",risk:"Medium",ret:"8-12%"},
-      {r:"⭐",name:"Fixed Deposits (Bank FD)",desc:"6.5-7.5% • Safe but taxable • Good for emergency fund in India • Use only for short-term goals",risk:"None",ret:"6.5-7.5%"},
-    ].map(i=>`
-      <div class="inv-idea">
-        <div style="flex-shrink:0;font-size:11px;margin-top:2px">${i.r}</div>
-        <div style="flex:1">
-          <div style="font-size:12px;font-weight:700;margin-bottom:3px">${i.name}</div>
-          <div style="font-size:11px;color:var(--sub);line-height:1.5">${i.desc}</div>
-        </div>
-        <div style="text-align:right;flex-shrink:0;margin-left:8px">
-          <span class="tag" style="background:${i.risk==="None"?"rgba(16,185,129,.15)":i.risk==="Medium"?"rgba(245,158,11,.15)":"rgba(239,68,68,.15)"};color:${i.risk==="None"?"var(--green)":i.risk==="Medium"?"var(--amber)":"var(--red)"}">${i.risk}</span>
-          <div style="font-size:10px;color:var(--green);font-weight:700;margin-top:4px">${i.ret}</div>
-        </div>
-      </div>`).join("")}
+    <div class="ct">🤔 Can I Invest ₹1,000/week in NIFTYBEES?</div>
+    <div id="bees-affordability"><div class="loader"><div class="spin"></div></div></div>
   </div>
 
-  <!-- FIX #12: Groww stock recommendations -->
-  <div class="card" style="border-color:rgba(59,130,246,.4)">
-    <div class="ct">🌍 AI Stock Advisor (India + Global Lens)</div>
-    <div style="font-size:11px;color:var(--sub);margin-bottom:10px">Based on geopolitical trends, India's growth trajectory, and global commodity cycles</div>
-    ${[
-      {sec:"🔋 Energy Transition & Minerals",stocks:"Tata Power, NTPC Green, Vedanta, Hindustan Zinc",why:"India's solar + EV push. Vedanta/HZL for zinc/silver — critical minerals demand surging globally.",rating:"Strong Buy"},
-      {sec:"✈️ Jewar Airport & Noida Play",stocks:"Phoenix Mills, DLF, Prestige Estates",why:"Noida Sector 150 + Yamuna Expressway will appreciate 15-20% with Jewar Airport opening. Real estate via REITs safer than direct.",rating:"Buy"},
-      {sec:"💻 India IT (Defensive)",stocks:"Infosys, TCS, Wipro (already in BSE index)",why:"Your BSE holding covers this. USD earners benefit when INR weakens — IT stocks are natural hedge.",rating:"Hold / Add on dips"},
-      {sec:"🏦 Financial Services",stocks:"HDFC Bank, Bajaj Finance (you have Bajaj Housing ✅)",why:"India's credit growth story. Bajaj Housing Finance is well-positioned for home loan boom.",rating:"Hold — you own it"},
-      {sec:"🌾 Agri + Food Tech",stocks:"ITC, Godrej Agrochem, UPL",why:"Food security theme globally. ITC is defensive with 3% dividend. UPL for global agri exposure.",rating:"Consider for stability"},
-      {sec:"🚀 Defence + Space (New)",stocks:"HAL, BEL, MTAR Technologies",why:"India's defence indigenisation + ISRO privatisation. HAL orders booked for 5+ years. Long-term multi-bagger potential.",rating:"High conviction"},
-    ].map(s=>`
-      <div style="padding:10px 0;border-bottom:1px solid var(--border)">
-        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:4px">
-          <div style="font-size:12px;font-weight:800">${s.sec}</div>
-          <span class="tag" style="background:${s.rating.includes("Strong")?"rgba(16,185,129,.2)":s.rating.includes("Buy")?"rgba(59,130,246,.2)":s.rating.includes("Hold")?"rgba(245,158,11,.2)":"rgba(139,92,246,.2)"};color:${s.rating.includes("Strong")?"var(--green)":s.rating.includes("Buy")?"var(--accent)":s.rating.includes("Hold")?"var(--amber)":"var(--purple)"}">${s.rating}</span>
-        </div>
-        <div style="font-size:11px;font-weight:700;color:var(--text);margin-bottom:3px">${s.stocks}</div>
-        <div style="font-size:11px;color:var(--sub);line-height:1.5">${s.why}</div>
-      </div>`).join("")}
-    <div style="margin-top:10px;font-size:10px;color:var(--sub);padding:8px;background:var(--surface);border-radius:7px">⚠️ Not SEBI-registered advice. Research before investing. These are thematic ideas based on macro trends.</div>
-  </div>
+  <div class="card"><div class="ct">💰 Mutual Funds & PPF</div><div id="mf-list"></div></div>
 </div>
 
 <!-- ══ INSIGHTS ══ -->
 <div class="tp" id="tab-insights">
-
-  <!-- NET WORTH -->
-  <div class="card">
-    <div class="ct">💎 Net Worth Tracker</div>
-    <div id="nw-assets"><div class="loader"><div class="spin"></div></div></div>
+  <div class="card card-glow-blue">
+    <div style="margin-bottom:12px">
+      <div class="ct">🧠 Executive AI Brief</div>
+      <div style="font-size:10px;color:var(--sub)">Reads your live Google Sheet → McKinsey-style analysis</div>
+    </div>
+    <button class="btnf" id="abtn" onclick="getAdvice()">✨ Get Executive Brief</button>
+    <div id="aout" style="color:var(--sub);font-size:12px;text-align:center;padding:14px 0">Tap above for your personalized executive analysis 📊</div>
   </div>
 
-  <!-- FIX #14: Real Estate Advisor -->
-  <div class="card" style="border-color:rgba(139,92,246,.4)">
-    <div class="ct">🏠 Real Estate Advisor: India vs USA (2027)</div>
-    <div style="font-size:13px;font-weight:800;color:var(--purple);margin-bottom:12px">Your question: Noida vs USA — where to buy first?</div>
-
-    <div class="ins-card" style="border-color:var(--teal)">
-      <div class="ins-title" style="color:var(--teal)">🇮🇳 India (Noida) — My Verdict: YES, but specific areas only</div>
-      <span class="verdict" style="background:rgba(20,184,166,.15);color:var(--teal)">Recommended — Sector 150 or Yamuna Expressway</span>
-      <div class="ins-body">
-        <strong style="color:var(--text)">Why Noida is actually a great call:</strong><br>
-        • Jewar International Airport (12M passengers/yr) opening in 2025-26 → properties near Yamuna Expressway already up 158% in 5 years<br>
-        • Sector 150 avg ₹11,000-12,000/sqft — still 40% cheaper than Gurugram<br>
-        • ANAROCK: Noida led NCR in capital appreciation 2021-2024<br>
-        • Film City + data centres + metro expansion = employment magnet<br><br>
-        <strong style="color:var(--text)">Best areas to target:</strong><br>
-        • Sector 150 (best infrastructure, Yamuna Expressway access)<br>
-        • Yamuna Expressway / Jewar belt (highest growth upside)<br>
-        • Avoid: Noida Extension (far, connectivity issues still)<br><br>
-        <strong style="color:var(--amber)">Budget needed:</strong> ₹85L–₹1.5Cr for 2BHK (≈ $10K–$18K USD)
-      </div>
+  <div class="card card-glow-purple">
+    <div class="ct">🏠 Real Estate: India vs USA (2027)</div>
+    <div style="font-size:13px;font-weight:800;color:var(--teal);margin-bottom:7px;font-family:var(--display)">🇮🇳 India: Noida Sector 150 ✅</div>
+    <div style="font-size:11px;color:var(--sub2);line-height:1.8;margin-bottom:12px">
+      • Jewar Airport opens 2026 → 15-20% appreciation expected<br>
+      • Sector 150: ₹11,000-12,000/sqft (40% cheaper than Gurugram)<br>
+      • 2BHK budget: ₹85L-₹1.5Cr (~$10K-$18K down payment)<br>
+      • <strong style="color:var(--amber)">Ideal window: Dec 2026 onwards (after Discover ends)</strong>
     </div>
-
-    <div class="ins-card" style="border-color:var(--accent)">
-      <div class="ins-title" style="color:var(--accent)">🇺🇸 USA — My Verdict: Wait until 2027, then evaluate</div>
-      <span class="verdict" style="background:rgba(59,130,246,.15);color:var(--accent)">Wait — not yet ready financially</span>
-      <div class="ins-body">
-        <strong style="color:var(--text)">Why wait:</strong><br>
-        • US mortgage rates still elevated (6.5-7%+) in 2026<br>
-        • Your debt ratio (62%) means you won't qualify for a good mortgage rate<br>
-        • Need 20% down payment + stable DTI (debt-to-income) ratio<br>
-        • After Aug 2027, your DTI drops dramatically — MUCH better mortgage terms<br><br>
-        <strong style="color:var(--text)">What to do now to prepare for 2027 USA purchase:</strong><br>
-        • Maintain 750+ credit score (all EMIs autopay ✅)<br>
-        • Save 20% down payment target<br>
-        • After loans end, stack cash aggressively for 6-12 months
-      </div>
+    <div style="font-size:13px;font-weight:800;color:var(--accent);margin-bottom:7px;font-family:var(--display)">🇺🇸 USA: Wait till 2027</div>
+    <div style="font-size:11px;color:var(--sub2);line-height:1.8;margin-bottom:12px">
+      • Your DTI (62%) too high for good mortgage rate now<br>
+      • After Aug 2027: DTI drops to ~20% → qualify for much better rate<br>
+      • Sequence: India (2027) → USA (2028-29)
     </div>
-
-    <div style="background:var(--surface);border-radius:9px;padding:12px 14px">
-      <div style="font-size:12px;font-weight:800;color:var(--text);margin-bottom:8px">🎯 My Recommended Sequence:</div>
-      <div class="row"><span class="rl">2026 (Now)</span><span class="rv" style="color:var(--amber)">Research Noida Sector 150</span></div>
-      <div class="row"><span class="rl">Dec 2026</span><span class="rv" style="color:var(--green)">Start India down payment fund</span></div>
-      <div class="row"><span class="rl">2027 (After loans)</span><span class="rv" style="color:var(--teal)">Buy in India first (affordable)</span></div>
-      <div class="row"><span class="rl">2028-2029</span><span class="rv" style="color:var(--accent)">Buy in USA with clean DTI</span></div>
+    <div class="sdiv"></div>
+    <div style="margin-top:10px">
+      <div class="tl-item"><div class="tl-dot" style="background:var(--sub)"></div><div><div class="tl-date">Now</div><div class="tl-text">Research Noida Sector 150</div></div></div>
+      <div class="tl-item"><div class="tl-dot" style="background:var(--amber)"></div><div><div class="tl-date">Dec 2026</div><div class="tl-text" style="color:var(--amber)">Start India down payment fund</div></div></div>
+      <div class="tl-item"><div class="tl-dot" style="background:var(--teal)"></div><div><div class="tl-date">2027</div><div class="tl-text" style="color:var(--teal)">Buy India (Sector 150 / Yamuna Exp.)</div></div></div>
+      <div class="tl-item"><div class="tl-dot" style="background:var(--accent)"></div><div><div class="tl-date">2028-29</div><div class="tl-text" style="color:var(--accent)">Buy USA with clean DTI</div></div></div>
     </div>
   </div>
 
-  <!-- FIX #5: Executive Advisor -->
-  <div class="card">
-    <div class="ct" style="margin-bottom:12px">🧠 Executive AI Advisor</div>
-    <div style="font-size:11px;color:var(--sub);margin-bottom:12px">Reads your live Google Sheet data → gives executive-level financial brief</div>
-    <button class="btn-full" id="abtn" onclick="getAdvice()">✨ Get Executive Brief</button>
-    <div id="aout" style="color:var(--sub);font-size:13px;text-align:center;padding:14px 0">
-      Tap above for your personalized executive financial analysis 📊
-    </div>
+  <div class="card card-glow-green">
+    <div class="ct">📈 Wealth Trajectory (if you execute)</div>
+    <div class="gcr"><span style="font-size:11px;color:var(--sub2)">Now (Apr 2026)</span><span style="font-family:var(--mono);font-weight:800;color:var(--amber)">$859/mo wealth-building</span></div>
+    <div class="gcr"><span style="font-size:11px;color:var(--sub2)">Dec 2026 (Discover ends)</span><span style="font-family:var(--mono);font-weight:800;color:var(--green)">$1,841/mo wealth-building</span></div>
+    <div class="gcr"><span style="font-size:11px;color:var(--sub2)">May 2027 (3 loans end)</span><span style="font-family:var(--mono);font-weight:800;color:var(--teal)">$2,749/mo wealth-building</span></div>
+    <div class="gcr"><span style="font-size:11px;color:var(--sub2)">Aug 2027 (SoFi ends)</span><span style="font-family:var(--mono);font-weight:800;color:var(--purple)">$4,349/mo wealth-building 🎉</span></div>
+    <div style="font-size:10px;color:var(--sub);text-align:center;margin-top:8px;background:var(--surface);border-radius:8px;padding:9px">16 months to transform your finances. Hold the line! 💪</div>
   </div>
 
-  <!-- Savings projection -->
-  <div class="card">
-    <div class="ct">📈 Wealth Trajectory</div>
-    <div class="gcr"><span style="font-size:12px;color:var(--sub)">Now</span><span style="font-family:var(--mono);font-weight:800;color:var(--amber)">$359 cash + $500 invested</span></div>
-    <div class="gcr"><span style="font-size:12px;color:var(--sub)">Dec 2026 (Discover ends)</span><span style="font-family:var(--mono);font-weight:800;color:var(--green)">$1,341/mo wealth</span></div>
-    <div class="gcr"><span style="font-size:12px;color:var(--sub)">Aug 2027 (all loans end)</span><span style="font-family:var(--mono);font-weight:800;color:var(--teal)">$3,846/mo to build wealth 🎉</span></div>
-    <div class="gcr"><span style="font-size:12px;color:var(--sub)">End of 2027 (est. savings)</span><span style="font-family:var(--mono);font-weight:800;color:var(--purple)">~$25K+ stacked</span></div>
-    <div style="font-size:11px;color:var(--sub);text-align:center;margin-top:8px">Execute this plan → $25K+ saved by Jan 2028 → buy property 🏠</div>
-  </div>
-
-  <!-- Optimize Claude usage -->
-  <div class="card" style="border-color:rgba(59,130,246,.3)">
-    <div style="font-size:12px;font-weight:800;color:var(--accent);margin-bottom:9px">💡 Stay on Claude Free Tier</div>
-    <div style="font-size:11px;color:var(--sub);line-height:2">
-      ✅ Click "Executive Brief" once per month (1st of month)<br>
-      ✅ Tell me expenses in chat → sheet updates automatically<br>
-      ✅ Dashboard auto-syncs every 30 seconds<br>
-      ✅ Use free Claude.ai chat for any specific questions<br>
-      ✅ Save the monthly brief as a screenshot for reference
+  <div class="card card-glow-blue">
+    <div style="font-size:13px;font-weight:800;color:var(--accent);margin-bottom:10px;font-family:var(--display)">💡 Stay on Free Tier</div>
+    <div class="tipbox">
+      ✅ Executive Brief once per month (1st of month)<br>
+      ✅ Tell me expenses → sheet updates → tap 🔄<br>
+      ✅ Dashboard syncs every 30 seconds<br>
+      ✅ Use Claude.ai free for follow-up questions
     </div>
   </div>
 </div>
 
-</div><!-- end .main -->
+</div><!-- end main -->
 
-<!-- BOTTOM NAV — 5 tabs -->
+<!-- BOTTOM NAV -->
 <nav class="bnav">
-  <button class="nitem active" data-tab="overview" onclick="switchTab('overview')"><span class="nic">📊</span><span class="nlb">Overview</span></button>
-  <button class="nitem" data-tab="loans" onclick="switchTab('loans')"><span class="nic">🏦</span><span class="nlb">Loans</span></button>
-  <button class="nitem" data-tab="expenses" onclick="switchTab('expenses')"><span class="nic">💸</span><span class="nlb">Expenses</span></button>
-  <button class="nitem" data-tab="invest" onclick="switchTab('invest')"><span class="nic">📈</span><span class="nlb">Invest</span></button>
-  <button class="nitem" data-tab="insights" onclick="switchTab('insights')"><span class="nic">🧠</span><span class="nlb">Insights</span></button>
+  <button class="ni active" data-tab="overview" onclick="switchTab('overview')"><span class="nic">📊</span><span class="nlb">Overview</span></button>
+  <button class="ni" data-tab="loans" onclick="switchTab('loans')"><span class="nic">🏦</span><span class="nlb">Loans</span></button>
+  <button class="ni" data-tab="expenses" onclick="switchTab('expenses')"><span class="nic">💸</span><span class="nlb">Expenses</span></button>
+  <button class="ni" data-tab="invest" onclick="switchTab('invest')"><span class="nic">📈</span><span class="nlb">Invest</span></button>
+  <button class="ni" data-tab="insights" onclick="switchTab('insights')"><span class="nic">🧠</span><span class="nlb">Insights</span></button>
 </nav>
 </body>
 </html>
