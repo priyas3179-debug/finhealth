@@ -36,7 +36,7 @@
   --radius-sm:8px;
 }
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
-body{font-family:var(--sans);background:var(--bg);color:var(--text);min-height:100vh;-webkit-font-smoothing:antialiased;padding-bottom:calc(var(--nav)+8px);background-image:radial-gradient(ellipse at 20% 0%,rgba(79,142,247,.06) 0%,transparent 60%),radial-gradient(ellipse at 80% 100%,rgba(159,122,234,.05) 0%,transparent 60%)}
+body{font-family:var(--sans);background:var(--bg);color:var(--text);min-height:100vh;-webkit-font-smoothing:antialiased;padding-bottom:calc(var(--nav)+80px);background-image:radial-gradient(ellipse at 20% 0%,rgba(79,142,247,.06) 0%,transparent 60%),radial-gradient(ellipse at 80% 100%,rgba(159,122,234,.05) 0%,transparent 60%)}
 ::-webkit-scrollbar{width:3px}::-webkit-scrollbar-thumb{background:var(--border2);border-radius:2px}
 
 /* ── HEADER ── */
@@ -51,7 +51,7 @@ body{font-family:var(--sans);background:var(--bg);color:var(--text);min-height:1
 .bsm:hover{background:var(--border2);border-color:var(--accent)}
 
 /* ── BOTTOM NAV ── */
-.bnav{position:fixed;bottom:0;left:0;right:0;height:var(--nav);background:rgba(8,12,20,.9);backdrop-filter:blur(20px);border-top:1px solid var(--border);display:flex;z-index:200;padding:4px 0}
+.bnav{position:fixed;bottom:0;left:0;right:0;height:var(--nav);background:rgba(8,12,20,.9);backdrop-filter:blur(20px);border-top:1px solid var(--border);display:flex;z-index:200;padding:4px 0;padding-bottom:max(4px,env(safe-area-inset-bottom))}
 .ni{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;cursor:pointer;border:none;background:transparent;color:var(--sub);font-family:var(--sans);-webkit-tap-highlight-color:transparent;transition:all .2s;position:relative;border-radius:10px;margin:2px;padding:4px 0}
 .ni.active{color:var(--accent)}
 .ni.active::before{content:'';position:absolute;top:0;left:50%;transform:translateX(-50%);width:24px;height:2px;background:var(--accent);border-radius:0 0 3px 3px;box-shadow:0 0 8px var(--accent)}
@@ -59,7 +59,8 @@ body{font-family:var(--sans);background:var(--bg);color:var(--text);min-height:1
 .nlb{font-size:9px;font-weight:600;text-transform:uppercase;letter-spacing:.5px}
 
 /* ── LAYOUT ── */
-.main{padding:12px 13px 6px}
+.main{padding:12px 13px 48px}
+.tp.active>*:last-child{margin-bottom:20px}
 .tp{display:none;flex-direction:column;gap:11px}.tp.active{display:flex}
 
 /* ── CARDS ── */
@@ -865,7 +866,7 @@ document.addEventListener("DOMContentLoaded",()=>{
     <div class="sh-red" style="margin-top:12px">❌ Don'ts</div>
     <div class="di"><span style="color:var(--red);font-weight:800;flex-shrink:0;font-size:13px">×</span>Don't take any new loan — 62% DTI already at limit</div>
     <div class="di"><span style="color:var(--red);font-weight:800;flex-shrink:0;font-size:13px">×</span>Don't buy property before Aug 2027 — cash flow too tight</div>
-    <div class="di"><span style="color:var(--red);font-weight:800;flex-shrink:0;font-size:13px">×</span>Don't aggressively prepay SoFi (6.59%) — invest instead</div>
+    <div class="di" style="margin-bottom:0"><span style="color:var(--red);font-weight:800;flex-shrink:0;font-size:13px">×</span>Don't aggressively prepay SoFi (6.59%) — invest instead</div>
   </div>
 </div>
 
